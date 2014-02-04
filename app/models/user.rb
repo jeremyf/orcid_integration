@@ -17,4 +17,10 @@ class User < ActiveRecord::Base
       end
     end
   end
+
+  def self.find_by_provider_and_uid(provider, uid)
+    includes(:authentications).
+    where('authentications.provider = :provider AND authentications.uid = :uid', {provider: provider, uid: uid}).
+    references(:authentications).first
+  end
 end
