@@ -17,6 +17,7 @@ gem 'figaro'
 gem 'foundation-rails'
 gem 'simple_form'
 gem 'byebug'
+gem 'rest_client'
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :rbx]
@@ -32,6 +33,7 @@ end
 group :development, :test do
   gem 'factory_girl_rails'
   gem 'rspec-rails'
+  gem 'webmock'
 end
 group :production do
   gem 'unicorn'
