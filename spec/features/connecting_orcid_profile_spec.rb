@@ -9,9 +9,15 @@ describe 'connecting orcid profile' do
   # Then I am not authenticated for the Application
 
   context 'with a newly created system user' do
-    it 'should allow me to connect my ORCID account' do
+    let(:user) { User.where(email: email).first }
+    xit 'should allow me to create an ORCID account' do
+      register_application
       register_user(email, password)
+      create_orcid
     end
+  end
+
+  def register_application
   end
 
   def register_user(email, password)
@@ -23,5 +29,13 @@ describe 'connecting orcid profile' do
       click_on("Sign up")
     end
     expect(page).to have_content('You have signed up successfully.')
+  end
+
+  def create_orcid
+    click_on("Request ORCID Profile")
+    within('form.new_orcid_profile') do
+      click_on("Create ORCID")
+    end
+    expect(user.authentications.where(profile: 'orcid').count).to eq(1)
   end
 end
