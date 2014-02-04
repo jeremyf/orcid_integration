@@ -10,10 +10,8 @@ describe Authentication do
       expect(described_class.find_by_provider_and_uid(provider, uid)).to eq(authentication)
     end
 
-    it 'raises an error if nothing is found' do
-      expect {
-        described_class.find_by_provider_and_uid('1','2')
-      }.to raise_error
+    it 'returns nil if provider and UID is not found' do
+      expect(described_class.find_by_provider_and_uid('1','2')).to be_nil
     end
 
   end
