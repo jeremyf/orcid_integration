@@ -10,15 +10,8 @@ module Orcid
       }
     }
 
-    let(:request_headers) {
-      { 'Accept' => 'application/json'}
-    }
-    let(:post_parameters) {
-      {
-        'scope'=>'/orcid-profile/create',
-        'grant_type'=>'client_credentials'
-      }
-    }
+    let(:request_headers) { { 'Accept' => 'application/json'} }
+    let(:post_parameters) { { 'scope'=>'/orcid-profile/create', 'grant_type'=>'client_credentials' } }
     let(:response_body) {
       {
         "access_token"=>"6e43b7b9-7d78-4fee-baa4-76acee469b7d",
@@ -28,10 +21,7 @@ module Orcid
         "scope"=>"/orcid-record/create"
       }
     }
-    let(:response_header) {
-      {'Content-Type' => 'application/json'}
-    }
-
+    let(:response_header) { {'Content-Type' => 'application/json'} }
 
     before(:each) do
       stub_request(:post, File.join(config[:host], "/oauth/token")).
