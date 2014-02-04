@@ -3,7 +3,7 @@ module Orcid
   class ProfileCreationService
     attr_reader :host, :access_token
     def initialize(config)
-      @host = config.fetch(:host)
+      @host = config.fetch(:host) { ENV['ORCID_APP_HOST'] }
       @access_token = config.fetch(:access_token)
     end
 
