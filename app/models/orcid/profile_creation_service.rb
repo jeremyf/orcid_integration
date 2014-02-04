@@ -1,6 +1,6 @@
 # Responsible for minting a new ORCID for the given payload.
 module Orcid
-  class CreationService
+  class ProfileCreationService
     attr_reader :host, :access_token
     def initialize(config)
       @host = config.fetch(:host)

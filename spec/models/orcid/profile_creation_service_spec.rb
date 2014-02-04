@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Orcid::CreationService do
+describe Orcid::ProfileCreationService do
   let(:payload) { %(<?xml version="1.0" encoding="UTF-8"?>) }
   let(:user) { double }
   let(:config) { {access_token: access_token, host: 'https://api.sandbox-1.orcid.org'} }
