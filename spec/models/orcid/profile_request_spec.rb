@@ -4,10 +4,15 @@ module Orcid
   describe ProfileRequest do
     let(:orcid_profile_id) { '0000-0001-8025-637X'}
     let(:user) { mock_model('User') }
-    let(:payload_attributes) {
-      { given_names: 'Daffy', family_name: 'Duck', primary_email: 'daffy@duck.com'}
+    let(:attributes) {
+      {
+        user: user,
+        given_names: 'Daffy',
+        family_name: 'Duck',
+        primary_email: 'daffy@duck.com'
+      }
     }
-    subject { described_class.new(user: user, payload_attributes: payload_attributes) }
+    subject { described_class.new(attributes) }
 
     context '#handle_profile_creation_response' do
       it 'should update local' do
@@ -79,7 +84,7 @@ module Orcid
         before(:each) do
           before_submit_validator.should_receive(:call).with(subject).
             and_return(true)
-          payload_xml_builder.should_receive(:call).with(payload_attributes).
+          payload_xml_builder.should_receive(:call).with(subject.attributes).
             and_return(xml_payload)
           profile_creation_service.should_receive(:call).with(xml_payload).
             and_return(orcid_profile_id)

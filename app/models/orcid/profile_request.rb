@@ -6,10 +6,12 @@ module Orcid
   class ProfileRequest < ActiveRecord::Base
     self.table_name = :orcid_profile_requests
 
-    validate :user_id, presence: true, unique: true
-    belongs_to :user
+    validates :user_id, presence: true, uniqueness: true
+    validates :given_names, presence: true
+    validates :family_names, presence: true
+    validates :primary_email, presence: true, email: true, confirmation: true
 
-    serialize :payload_attributes
+    belongs_to :user
 
     def submit(options = {})
       # Why dependency injection? Because this is going to be a plugin, and things
@@ -21,7 +23,7 @@ module Orcid
       profile_creation_service = options.fetch(:profile_creation_service) { Orcid::ProfileCreationService }
       profile_creation_responder = options.fetch(:profile_creation_responder) { method(:handle_profile_creation_response) }
 
-      orcid_profile_id = profile_creation_service.call(payload_xml_builder.call(payload_attributes))
+      orcid_profile_id = profile_creation_service.call(payload_xml_builder.call(attributes))
       profile_creation_responder.call(orcid_profile_id)
     end
 
@@ -41,7 +43,7 @@ module Orcid
     end
 
     # As per http://support.orcid.org/knowledgebase/articles/177522-create-an-id-technical-developer
-    def xml_payload(input = payload_attributes)
+    def xml_payload(input = attributes)
       attrs = input.with_indifferent_access
       <<-XML_TEMPLATE
       <?xml version="1.0" encoding="UTF-8"?>
