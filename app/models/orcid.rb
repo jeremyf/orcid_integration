@@ -5,4 +5,9 @@ module Orcid
 
   def profile_for(object)
   end
+
+  def enqueue(object)
+    object.run
+  end
+
 end

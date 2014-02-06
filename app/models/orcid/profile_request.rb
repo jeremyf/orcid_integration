@@ -8,16 +8,16 @@ module Orcid
 
     validates :user_id, presence: true, uniqueness: true
     validates :given_names, presence: true
-    validates :family_names, presence: true
+    validates :family_name, presence: true
     validates :primary_email, presence: true, email: true, confirmation: true
 
     belongs_to :user
 
-    def submit(options = {})
+    def run(options = {})
       # Why dependency injection? Because this is going to be a plugin, and things
       # can't possibly be simple.
-      before_submit_validator = options.fetch(:before_submit_validator) { method(:validate_before_submit) }
-      return false unless before_submit_validator.call(self)
+      before_run_validator = options.fetch(:before_run_validator) { method(:validate_before_run) }
+      return false unless before_run_validator.call(self)
 
       payload_xml_builder = options.fetch(:payload_xml_builder) { method(:xml_payload) }
       profile_creation_service = options.fetch(:profile_creation_service) { Orcid::ProfileCreationService }
@@ -27,7 +27,7 @@ module Orcid
       profile_creation_responder.call(orcid_profile_id)
     end
 
-    def validate_before_submit(context = self)
+    def validate_before_run(context = self)
 
       if context.orcid_profile_id?
         context.errors.add(:base, "#{context.class} ID=#{context.to_param} already has an assigned :orcid_profile_id #{context.orcid_profile_id.inspect}")

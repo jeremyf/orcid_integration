@@ -32,13 +32,13 @@ module Orcid
       end
     end
 
-    context '#validate_before_submit' do
+    context '#validate_before_run' do
       let(:orcid_profile) { double('Orcid Profile', to_param: orcid_profile_id) }
 
       context 'when no orcid profile has been assigned' do
         before { Orcid.should_receive(:profile_for).with(user).and_return(nil) }
         it 'should return true' do
-          expect(subject.validate_before_submit).to eq(true)
+          expect(subject.validate_before_run).to eq(true)
         end
       end
 
@@ -46,12 +46,12 @@ module Orcid
         before { subject.orcid_profile_id = orcid_profile_id }
 
         it 'should return false' do
-          expect(subject.validate_before_submit).to eq(false)
+          expect(subject.validate_before_run).to eq(false)
         end
 
         it 'should set an error' do
           expect {
-            subject.validate_before_submit
+            subject.validate_before_run
           }.to change { subject.errors.full_messages.count }.by(1)
         end
 
@@ -61,28 +61,28 @@ module Orcid
         before { Orcid.should_receive(:profile_for).with(user).and_return(orcid_profile) }
 
         it 'should return false' do
-          expect(subject.validate_before_submit).to eq(false)
+          expect(subject.validate_before_run).to eq(false)
         end
 
         it 'should set an error' do
           expect {
-            subject.validate_before_submit
+            subject.validate_before_run
           }.to change { subject.errors.full_messages.count }.by(1)
         end
 
       end
     end
 
-    context '#submit' do
+    context '#run' do
       let(:profile_creation_service) { double('Profile Creation Service') }
       let(:profile_creation_responder) { double('Payload Creation Responder') }
       let(:payload_xml_builder) { double('Payload Xml Builder') }
-      let(:before_submit_validator) { double('Submission Guardian') }
+      let(:before_run_validator) { double('Submission Guardian') }
       let(:xml_payload) { double('Xml Payload') }
 
       context 'with the submission guardian permitting the request' do
         before(:each) do
-          before_submit_validator.should_receive(:call).with(subject).
+          before_run_validator.should_receive(:call).with(subject).
             and_return(true)
           payload_xml_builder.should_receive(:call).with(subject.attributes).
             and_return(xml_payload)
@@ -91,30 +91,30 @@ module Orcid
           profile_creation_responder.should_receive(:call).with(orcid_profile_id)
         end
 
-        it 'should submit a request and handle the response' do
-          subject.submit(
+        it 'should run a request and handle the response' do
+          subject.run(
             payload_xml_builder: payload_xml_builder,
             profile_creation_service: profile_creation_service,
             profile_creation_responder: profile_creation_responder,
-            before_submit_validator: before_submit_validator
+            before_run_validator: before_run_validator
           )
         end
       end
 
       context 'with the submission guardian returning false' do
         before(:each) do
-          before_submit_validator.should_receive(:call).with(subject).
+          before_run_validator.should_receive(:call).with(subject).
             and_return(false)
           payload_xml_builder.should_not_receive(:call)
           profile_creation_responder.should_not_receive(:call)
         end
 
         it 'should raise an exception' do
-          subject.submit(
+          subject.run(
             payload_xml_builder: payload_xml_builder,
             profile_creation_service: profile_creation_service,
             profile_creation_responder: profile_creation_responder,
-            before_submit_validator: before_submit_validator
+            before_run_validator: before_run_validator
           )
         end
       end
