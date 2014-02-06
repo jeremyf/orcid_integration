@@ -2,9 +2,15 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
-# Require the gems listed in Gemfile, including any gems
-# you've limited to :test, :development, or :production.
-Bundler.require(:default, Rails.env)
+
+# For each of the values of a hash entry, load the hash key's bundle group
+bundle_environment_aliases = Rails.groups(
+    default: %w(production development test ci),
+    debug: %w(development test),
+    ci: %w(test),
+    test: %w(ci)
+)
+Bundler.require(*bundle_environment_aliases)
 
 module OrcidIntegration
   class Application < Rails::Application

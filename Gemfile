@@ -19,14 +19,14 @@ gem 'simple_form'
 gem 'byebug'
 gem 'rest_client'
 gem 'email_validator'
-group :development do
+gem 'rails_layout'
+group :debug do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :rbx]
   gem 'guard-bundler'
   gem 'guard-rails'
   gem 'guard-rspec'
   gem 'quiet_assets'
-  gem 'rails_layout'
   gem 'rb-fchange', :require=>false
   gem 'rb-fsevent', :require=>false
   gem 'rb-inotify', :require=>false

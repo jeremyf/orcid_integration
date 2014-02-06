@@ -2,7 +2,7 @@ language: ruby
 rvm:
   - "2.0.0"
 
-script: 'rake SPEC_OPTS="--tag ~requires_net_connect:true"'
+script: 'rake ci SPEC_OPTS="--tag ~requires_net_connect:true"'
 
 bundler_args: --without headless debug
 
