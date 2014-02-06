@@ -1,8 +1,16 @@
 require 'spec_helper'
 
-describe 'connecting orcid profile' do
+describe 'connecting orcid profile', requires_net_connect: true do
+  around(:each) do |example|
+    WebMock.allow_net_connect!
+    example.run
+    WebMock.disable_net_connect!
+  end
+
   let(:password) { 'WqtjNG?nA0' }
-  let(:email) { 'somebody@gmail.com' }
+  # I need a unique email if I am hitting the public ORCID sandbox
+  let(:email) { "corwin#{Time.now.strftime('%Y%m%d%H%m%s')}@amber.gov" }
+
   # Given I have an existing ORCID iD
   # And I have not connected my Account to my ORCID iD
   # When I attempt to authenticate to the Application via ORCID
@@ -10,8 +18,7 @@ describe 'connecting orcid profile' do
 
   context 'with a newly created system user' do
     let(:user) { User.where(email: email).first }
-    xit 'should allow me to create an ORCID account' do
-      register_application
+    it 'should allow me to create an ORCID account' do
       register_user(email, password)
       create_orcid
     end
@@ -33,9 +40,15 @@ describe 'connecting orcid profile' do
 
   def create_orcid
     click_on("Request ORCID Profile")
-    within('form.new_orcid_profile') do
-      click_on("Create ORCID")
+
+    within('form.new_profile_request') do
+      fill_in("profile_request[given_names]", with: 'Corwin')
+      fill_in("profile_request[family_name]", with: 'Amber')
+      fill_in("profile_request[primary_email]", with: email)
+      fill_in("profile_request[primary_email_confirmation]", with: email)
+      click_on("Create Profile request")
     end
-    expect(user.authentications.where(profile: 'orcid').count).to eq(1)
+
+    expect(user.authentications.where(provider: 'orcid').count).to eq(1)
   end
 end
