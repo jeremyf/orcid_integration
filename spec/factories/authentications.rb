@@ -5,7 +5,5 @@ FactoryGirl.define do
     association :user, strategy: :build
     provider "twitter"
     uid "1234"
-    token "my_token"
-    token_secret "my_secret"
   end
 end
