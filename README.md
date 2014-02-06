@@ -1,4 +1,4 @@
-# ORCID Integration [![Build Status](https://travis-ci.org/jeremyf/orcid_integration.png?branch=master)]
+# ORCID Integration [![Build Status](https://travis-ci.org/jeremyf/orcid_integration.png?branch=master)](https://travis-ci.org/jeremyf/orcid_integration)
 
 ## You'll Need a (Self Signed) Certificate
 
