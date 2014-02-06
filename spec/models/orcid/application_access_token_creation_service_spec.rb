@@ -32,8 +32,14 @@ module Orcid
 
     context '#call' do
       subject { described_class.new(config) }
-      it do
+      it 'returns a serialized token' do
         expect(subject.call(post_parameters)).to eq(response_body)
+      end
+    end
+
+    context '.call' do
+      it 'returns a serialized token' do
+        expect(described_class.call(post_parameters, config)).to eq(response_body)
       end
     end
 

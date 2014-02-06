@@ -1,5 +1,9 @@
 module Orcid
   class ApplicationAccessTokenCreationService
+    def self.call(parameters, config = {})
+      new(config).call(parameters)
+    end
+
     def initialize(config = {})
       @host = config.fetch(:host) { ENV['ORCID_APP_HOST'] }
       @client_id = config.fetch(:client_id) { ENV['ORCID_APP_ID']}

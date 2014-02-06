@@ -4,6 +4,11 @@ module Orcid
   # * submitting a request for an ORCID Profile
   # * handling the response for the ORCID Profile creation
   class ProfileRequest < ActiveRecord::Base
+
+    def self.find_by_user_and_id(user, id)
+      where(user: user).find(id)
+    end
+
     self.table_name = :orcid_profile_requests
 
     validates :user_id, presence: true, uniqueness: true
@@ -42,13 +47,17 @@ module Orcid
       true
     end
 
-    # As per http://support.orcid.org/knowledgebase/articles/177522-create-an-id-technical-developer
+    # NOTE: This one lies -> http://support.orcid.org/knowledgebase/articles/177522-create-an-id-technical-developer
+    # NOTE: This one was true at 2014-02-06:14:55 -> http://support.orcid.org/knowledgebase/articles/162412-tutorial-create-a-new-record-using-curl
     def xml_payload(input = attributes)
       attrs = input.with_indifferent_access
-      <<-XML_TEMPLATE
+      returning_value = <<-XML_TEMPLATE
       <?xml version="1.0" encoding="UTF-8"?>
-      <orcid-message xmlns="http://www.orcid.org/ns/orcid">
-      <orcid-record>
+      <orcid-message
+      xmlns:xsi="http://www.orcid.org/ns/orcid https://raw.github.com/ORCID/ORCID-Source/master/orcid-model/src/main/resources/orcid-message-1.1.xsd"
+      xmlns="http://www.orcid.org/ns/orcid">
+      <message-version>1.1</message-version>
+      <orcid-profile>
       <orcid-bio>
       <personal-details>
       <given-names>#{attrs.fetch('given_names')}</given-names>
@@ -58,9 +67,10 @@ module Orcid
       <email primary="true">#{attrs.fetch('primary_email')}</email>
       </contact-details>
       </orcid-bio>
-      </orcid-record>
+      </orcid-profile>
       </orcid-message>
       XML_TEMPLATE
+      returning_value.strip
     end
 
     def handle_profile_creation_response(orcid_profile_id)

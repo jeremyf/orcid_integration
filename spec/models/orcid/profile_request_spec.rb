@@ -14,6 +14,21 @@ module Orcid
     }
     subject { described_class.new(attributes) }
 
+    context '#find_by_user_and_id' do
+      let!(:profile_request) { FactoryGirl.create(:orcid_profile_request) }
+      it 'returns the profile request' do
+        expect(described_class.find_by_user_and_id(profile_request.user, profile_request.to_param)).to eq(profile_request)
+      end
+
+      it 'raises an exception if not found' do
+        other_user = FactoryGirl.build_stubbed(:user)
+        expect {
+          described_class.find_by_user_and_id(other_user, profile_request.to_param)
+        }.to raise_error
+      end
+
+    end
+
     context '#handle_profile_creation_response' do
       it 'should update local' do
         # Don't want to hit the database
