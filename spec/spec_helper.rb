@@ -10,16 +10,24 @@ require 'webmock/rspec'
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
+# From https://github.com/plataformatec/devise/wiki/How-To:-Stub-authentication-in-controller-specs
+module ControllerHelpers
+  def sign_in(user = double('user'))
+    if user.nil?
+      request.env['warden'].stub(:authenticate!).
+        and_throw(:warden, {:scope => :user})
+      controller.stub :current_user => nil
+    else
+      request.env['warden'].stub :authenticate! => user
+      controller.stub :current_user => user
+    end
+  end
+end
+
 RSpec.configure do |config|
   config.include(EmailSpec::Helpers)
   config.include(EmailSpec::Matchers)
-  # ## Mock Framework
-  #
-  # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
-  #
-  # config.mock_with :mocha
-  # config.mock_with :flexmock
-  # config.mock_with :rr
+  config.include ControllerHelpers, type: :controller
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
