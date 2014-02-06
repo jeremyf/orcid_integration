@@ -23,4 +23,8 @@ class User < ActiveRecord::Base
     where('authentications.provider = :provider AND authentications.uid = :uid', {provider: provider, uid: uid}).
     references(:authentications).first
   end
+
+  def attach_orcid_profile_id(orcid_profile_id)
+    authentications.create(provider: 'orcid', uid: orcid_profile_id)
+  end
 end
