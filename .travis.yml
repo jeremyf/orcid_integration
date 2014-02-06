@@ -1,0 +1,10 @@
+language: ruby
+rvm:
+  - "2.0.0"
+
+script: 'rake'
+
+bundler_args: --without headless debug
+
+before_install:
+  - gem install bundler
