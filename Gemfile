@@ -21,6 +21,8 @@ gem 'byebug'
 gem 'rest_client'
 gem 'email_validator'
 gem 'rails_layout'
+gem 'qa'
+gem 'nokogiri'
 group :debug do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :rbx]
