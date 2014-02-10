@@ -1,4 +1,5 @@
 require 'qa'
+require 'ostruct'
 
 module Qa::Authorities
   class OrcidProfile
@@ -35,8 +36,9 @@ module Qa::Authorities
         emails = orcid_bio.fetch('contact-details').fetch('email').collect {|email| email.fetch('value') }
         label = "#{given_names} #{family_name}"
         label << " (" << emails.join(",") << ")" if emails.present?
+        label << " [ORCID: #{identifier}]"
 
-        returning_value << {"id" => identifier, "label" => label}
+        returning_value << OpenStruct.new("id" => identifier, "label" => label)
       end
     end
 

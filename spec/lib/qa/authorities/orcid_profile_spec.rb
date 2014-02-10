@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'ostruct'
 
 module Qa::Authorities
   describe OrcidProfile do
@@ -17,7 +18,7 @@ module Qa::Authorities
     }
 
     let(:response_headers) { {} }
-    let(:json_response) { [ { 'id' => orcid_profile_id, 'label' => "Corwin Amber (#{email})" } ] }
+    let(:json_response) { [ OpenStruct.new({ 'id' => orcid_profile_id, 'label' => "Corwin Amber (#{email}) [ORCID: #{orcid_profile_id}]" }) ] }
 
     before(:each) do
       stub_request(:get, File.join(config[:host], "v1.1/search/orcid-bio/?q=email:#{email}")).
