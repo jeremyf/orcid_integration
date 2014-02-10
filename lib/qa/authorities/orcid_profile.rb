@@ -12,16 +12,16 @@ module Qa::Authorities
       @access_token = config.fetch(:access_token) { Orcid.profile_search_access_token }
     end
 
-    def call(query)
-      response = deliver(query)
+    def call(parameters)
+      response = deliver(parameters)
       parse(response.body)
     end
     alias_method :search, :call
 
     protected
     attr_reader :host, :access_token
-    def deliver(params)
-      RestClient.get(uri, headers.merge(params: params))
+    def deliver(parameters)
+      RestClient.get(uri, headers.merge(params: parameters))
     end
 
     def parse(document)

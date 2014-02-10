@@ -6,6 +6,7 @@
 <% end %>
 <% if user_signed_in? %>
   <li><%= link_to 'Request ORCID Profile', new_orcid_profile_request_path %></li>
+  <li><%= link_to 'Connect to my existing ORCID Profile', new_orcid_profile_connection_path %></li>
   <li><%= link_to 'Edit account', edit_user_registration_path %></li>
 <% else %>
   <li><%= link_to 'Sign up', new_user_registration_path %></li>

@@ -11,20 +11,28 @@ describe 'connecting orcid profile', requires_net_connect: true do
   # I need a unique email if I am hitting the public ORCID sandbox
   let(:email) { "corwin#{Time.now.strftime('%Y%m%d%H%m%s')}@amber.gov" }
 
-  # Given I have an existing ORCID iD
-  # And I have not connected my Account to my ORCID iD
-  # When I attempt to authenticate to the Application via ORCID
-  # Then I am not authenticated for the Application
-
   context 'with a newly created system user' do
     let(:user) { User.where(email: email).first }
-    it 'should allow me to create an ORCID account' do
-      register_user(email, password)
-      create_orcid
+    context 'without existing ORCID account' do
+      it 'should allow me to create an ORCID account' do
+        register_user(email, password)
+        create_orcid
+      end
+    end
+    context 'with existing ORCID account' do
+      let(:email) { 'jeremy.n.friesen@gmail.com' }
+      it 'should allow me to connect to an existing ORCID account' do
+        register_user(email, password)
+        connect_to_orcid(email)
+      end
     end
   end
 
-  def register_application
+  def connect_to_orcid(with_email)
+    click_on("Connect to my existing ORCID Profile")
+    within('form.search-form') do
+      
+    end
   end
 
   def register_user(email, password)
