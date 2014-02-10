@@ -19,17 +19,23 @@ module Qa::Authorities
     let(:response_headers) { {} }
     let(:json_response) { [ { 'id' => orcid_profile_id, 'label' => "Corwin Amber (#{email})" } ] }
 
-    context '#call' do
-      before(:each) do
-        stub_request(:get, File.join(config[:host], "v1.1/search/orcid-bio/?q=email:#{email}")).
-          with(headers: request_headers).
-          to_return(status: 200, headers: response_headers, body: response_body)
-      end
-      let(:parameters) { {q: "email:#{email}" } }
-      subject { described_class.new(config) }
+    before(:each) do
+      stub_request(:get, File.join(config[:host], "v1.1/search/orcid-bio/?q=email:#{email}")).
+        with(headers: request_headers).
+        to_return(status: 200, headers: response_headers, body: response_body)
+    end
+    let(:parameters) { {q: "email:#{email}"} }
 
+    context '#call' do
+      subject { described_class.new(config) }
       it 'should return a JSON object' do
         expect(subject.call(parameters)).to eq(json_response)
+      end
+    end
+
+    context '.call' do
+      it 'should return a JSON object' do
+        expect(described_class.call(parameters, config)).to eq(json_response)
       end
     end
 

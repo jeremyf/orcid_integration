@@ -2,8 +2,11 @@ require 'qa'
 
 module Qa::Authorities
   class OrcidProfile
+    def self.call(query, config = {})
+      new(config).call(query)
+    end
 
-    def initialize(config)
+    def initialize(config = {})
       @host = config.fetch(:host) { ENV['ORCID_APP_HOST'] }
       @access_token = config.fetch(:access_token) { Orcid.profile_search_access_token }
     end
