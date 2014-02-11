@@ -21,7 +21,7 @@ describe 'connecting orcid profile', requires_net_connect: true do
     end
     context 'with existing ORCID account' do
       let(:email) { 'jeremy.n.friesen@gmail.com' }
-      xit 'should allow me to connect to an existing ORCID account' do
+      it 'should allow me to connect to an existing ORCID account' do
         register_user(email, password)
         connect_to_orcid(email)
       end
