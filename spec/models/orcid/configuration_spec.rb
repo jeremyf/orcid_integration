@@ -5,11 +5,6 @@ module Orcid
     let(:storage) { { 'ORCID_APP_ID' => 'app_id', 'ORCID_APP_SECRET' => 'app_secret', 'ORCID_APP_HOST' => 'app_host'} }
 
     subject { described_class.new }
-    context 'defaults' do
-      its(:app_id) { should eq ENV['ORCID_APP_ID'] }
-      its(:app_secret) { should eq ENV['ORCID_APP_SECRET'] }
-      its(:app_host) { should eq ENV['ORCID_APP_HOST'] }
-    end
 
     context 'custom storage' do
       subject { described_class.new(storage) }
