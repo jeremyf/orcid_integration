@@ -1,12 +1,21 @@
 module Orcid
   class ProfileConnection
     include Virtus.model
+    include ActiveModel::Validations
     extend ActiveModel::Naming
     attribute :email
     attribute :orcid_profile_id
     attribute :user
 
+    validates :user, presence: true
+    validates :orcid_profile_id, presence: true
+
     def persisted?; false; end
+
+    def save(config = {})
+      persister = config.fetch(:persister) { Orcid.method(:connect_user_and_orcid_profile) }
+      valid? ? persister.call(user, orcid_profile_id) : false
+    end
 
     def with_orcid_profile_candidates
       if query_for_orcid_profile_candidates?
