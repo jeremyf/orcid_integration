@@ -23,6 +23,30 @@ describe 'connecting orcid profile' do
           create_orcid
         end
       end
+
+      if ENV['ORCID_EXISTING_PUB_EMAIL'] && ENV['ORCID_EXISTING_PUB_PROFILE_ID'] && ENV['ORCID_EXISTING_PUB_NAME']
+        context 'existing account' do
+          around(:each) do |example|
+            old_host = Orcid.configuration.app_host
+            Orcid.configuration.app_host = 'https://pub.orcid.org'
+            Orcid.should_receive(:profile_search_access_token).and_return(access_token)
+
+            example.run
+
+            Orcid.configuration.app_host = old_host
+          end
+
+          let(:email) { ENV['ORCID_EXISTING_PUB_EMAIL'] }
+          let(:name) { ENV['ORCID_EXISTING_PUB_NAME'] }
+          let(:orcid_profile_id) { ENV['ORCID_EXISTING_PUB_PROFILE_ID'] }
+          let(:label) { "#{name} (#{email}) [ORCID: #{orcid_profile_id}]" }
+          it 'connects to an existing ORCID account' do
+            register_user(email, password)
+            connect_to_orcid(email, label)
+          end
+        end
+      end
+
     end
 
     context 'without net connect' do
