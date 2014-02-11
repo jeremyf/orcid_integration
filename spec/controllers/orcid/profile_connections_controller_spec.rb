@@ -26,5 +26,22 @@ module Orcid
         end
       end
     end
+
+    context 'POST #create' do
+      it_prompts_unauthenticated_users_for_signin(:post, :create)
+
+      context 'authenticated and authorized user' do
+        let(:orcid_profile_id) {'0000-0001-8025-637X'}
+        before { sign_in(user) }
+
+        it 'should render a profile request form' do
+          Orcid::ProfileConnection.any_instance.should_receive(:save)
+
+          post :create, profile_connection: { orcid_profile_id: orcid_profile_id }
+          expect(assigns(:profile_connection)).to be_an_instance_of(Orcid::ProfileConnection)
+          expect(response).to redirect_to(orcid_profile_connections_path)
+        end
+      end
+    end
   end
 end
