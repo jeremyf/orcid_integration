@@ -8,7 +8,7 @@ module Orcid
 
     attr_reader :host, :access_token
     def initialize(config)
-      @host = config.fetch(:host) { ENV['ORCID_APP_HOST'] }
+      @host = config.fetch(:host) { Orcid.configuration.app_host }
       @access_token = config.fetch(:access_token) { Orcid.profile_creation_access_token }
     end
 

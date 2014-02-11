@@ -8,7 +8,7 @@ module Qa::Authorities
     end
 
     def initialize(config = {})
-      @host = config.fetch(:host) { ENV['ORCID_APP_HOST'] }
+      @host = config.fetch(:host) { Orcid.configuration.app_host }
       @access_token = config.fetch(:access_token) { Orcid.profile_search_access_token }
     end
 

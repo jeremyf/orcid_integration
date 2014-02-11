@@ -1,5 +1,15 @@
+require 'orcid/configuration'
+
 module Orcid
+  class << self
+    attr_accessor :configuration
+  end
+
   module_function
+  def configure
+    self.configuration ||= Configuration.new
+    yield(configuration)
+  end
 
   def connect_user_and_orcid_profile(user, orcid_profile_id)
     Authentication.create!(provider: 'orcid', uid: orcid_profile_id, user: user)

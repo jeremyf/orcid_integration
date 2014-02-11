@@ -1,6 +1,11 @@
 require 'spec_helper'
 
 describe Orcid do
+  context '.configure' do
+    it 'should yield a configuration' do
+      expect{|b| Orcid.configure(&b) }.to yield_with_args(Orcid::Configuration)
+    end
+  end
   context '.connect_user_and_orcid_profile' do
     let(:user) { FactoryGirl.build_stubbed(:user) }
     let(:orcid_profile_id) { '0100-0012' }

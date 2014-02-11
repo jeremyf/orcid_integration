@@ -5,9 +5,9 @@ module Orcid
     end
 
     def initialize(config = {})
-      @host = config.fetch(:host) { ENV['ORCID_APP_HOST'] }
-      @client_id = config.fetch(:client_id) { ENV['ORCID_APP_ID']}
-      @client_secret = config.fetch(:client_secret) { ENV['ORCID_APP_SECRET']}
+      @host = config.fetch(:host) { Orcid.configuration.app_host }
+      @client_id = config.fetch(:client_id) { Orcid.configuration.app_id }
+      @client_secret = config.fetch(:client_secret) { Orcid.configuration.app_secret }
     end
 
     def call(parameters)
