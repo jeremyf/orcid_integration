@@ -27,7 +27,7 @@ module Orcid
     def orcid_profile_candidates
       @orcid_profile_candidates ||= begin
         if query_for_orcid_profile_candidates?
-          orcid_profile_querier.call({q: "email:#{email}"}, {access_token: '', host: 'https://pub.orcid.org'} )
+          orcid_profile_querier.call({q: "email:#{email}"})
         else
           []
         end

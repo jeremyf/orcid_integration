@@ -1,19 +1,22 @@
 require 'spec_helper'
 
-describe 'connecting orcid profile', requires_net_connect: true do
-  around(:each) do |example|
-    WebMock.allow_net_connect!
-    example.run
-    WebMock.disable_net_connect!
-  end
+describe 'connecting orcid profile' do
 
+  let(:access_token) { '6e43b7b9-7d78-4fee-baa4-76acee469b7d' }
+  let(:orcid_profile_id) { '0001-0002-0003-0004' }
   let(:password) { 'WqtjNG?nA0' }
   # I need a unique email if I am hitting the public ORCID sandbox
   let(:email) { "corwin#{Time.now.strftime('%Y%m%d%H%m%s')}@amber.gov" }
 
   context 'with a newly created system user' do
     let(:user) { User.where(email: email).first }
-    context 'without existing ORCID account' do
+
+    context 'without existing ORCID account', requires_net_connect: true do
+      around(:each) do |example|
+        WebMock.allow_net_connect!
+        example.run
+        WebMock.disable_net_connect!
+      end
       it 'should allow me to create an ORCID account' do
         register_user(email, password)
         create_orcid
@@ -26,17 +29,24 @@ describe 'connecting orcid profile', requires_net_connect: true do
         connect_to_orcid(email)
       end
     end
+
   end
 
   def connect_to_orcid(with_email)
+    # An unfortunate issue related to various environments; Stubbing behavior.
+    label = "A Person"
+    Orcid.should_receive(:profile_search_access_token).and_return(access_token)
+    Qa::Authorities::OrcidProfile.any_instance.should_receive(:call).and_return([ OpenStruct.new('id' => orcid_profile_id, 'label' => label)])
+
     click_on("Connect to my existing ORCID Profile")
+
     within('form.search-form') do
       fill_in("Email", with: email)
       click_on("Search")
     end
 
     within("form.new_profile_connection") do
-      choose("Jeremy Friesen (jeremy.n.friesen@gmail.com) [ORCID: 0000-0002-1191-0873]")
+      choose(label)
       click_on("Create Profile connection")
     end
 
