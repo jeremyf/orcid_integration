@@ -25,13 +25,7 @@ module Orcid
     attr_writer :orcid_profile_querier
     protected
     def orcid_profile_candidates
-      @orcid_profile_candidates ||= begin
-        if query_for_orcid_profile_candidates?
-          orcid_profile_querier.call({q: "email:#{email}"})
-        else
-          []
-        end
-      end
+      @orcid_profile_candidates ||= orcid_profile_querier.call({q: "email:#{email}"})
     end
     def query_for_orcid_profile_candidates?
       email.present?
