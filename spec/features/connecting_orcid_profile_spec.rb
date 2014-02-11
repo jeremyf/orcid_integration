@@ -21,7 +21,7 @@ describe 'connecting orcid profile', requires_net_connect: true do
     end
     context 'with existing ORCID account' do
       let(:email) { 'jeremy.n.friesen@gmail.com' }
-      it 'should allow me to connect to an existing ORCID account' do
+      xit 'should allow me to connect to an existing ORCID account' do
         register_user(email, password)
         connect_to_orcid(email)
       end
@@ -31,8 +31,16 @@ describe 'connecting orcid profile', requires_net_connect: true do
   def connect_to_orcid(with_email)
     click_on("Connect to my existing ORCID Profile")
     within('form.search-form') do
-      
+      fill_in("Email", with: email)
+      click_on("Search")
     end
+
+    within("form.new_profile_connection") do
+      choose("Jeremy Friesen (jeremy.n.friesen@gmail.com) [ORCID: 0000-0002-1191-0873]")
+      click_on("Create Profile connection")
+    end
+
+    expect_user_to_have_orcid_profile
   end
 
   def register_user(email, password)
@@ -57,6 +65,10 @@ describe 'connecting orcid profile', requires_net_connect: true do
       click_on("Create Profile request")
     end
 
+    expect_user_to_have_orcid_profile
+  end
+
+  def expect_user_to_have_orcid_profile
     expect(user.authentications.where(provider: 'orcid').count).to eq(1)
   end
 end
