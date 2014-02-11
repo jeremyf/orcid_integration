@@ -42,14 +42,4 @@ describe User do
     end
   end
 
-  context '#attach_orcid_profile_id' do
-    let(:orcid_profile_id) { '0000-0001-8025-637X'}
-    subject { FactoryGirl.build_stubbed(:user) }
-
-    it 'should create an authentication' do
-      expect {
-        subject.attach_orcid_profile_id(orcid_profile_id)
-      }.to change { subject.authentications.count }.by(1)
-    end
-  end
 end

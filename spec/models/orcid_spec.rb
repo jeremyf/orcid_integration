@@ -1,6 +1,17 @@
 require 'spec_helper'
 
 describe Orcid do
+  context '.connect_user_and_orcid_profile' do
+    let(:user) { FactoryGirl.build_stubbed(:user) }
+    let(:orcid_profile_id) { '0100-0012' }
+
+    it 'changes the authentication count' do
+      expect {
+        Orcid.connect_user_and_orcid_profile(user, orcid_profile_id)
+      }.to change(Authentication.where(provider: 'orcid', user_id: user.id), :count).by(1)
+    end
+  end
+
   context '.enqueue' do
     let(:object) { double }
 

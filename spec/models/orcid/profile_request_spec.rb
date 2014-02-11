@@ -33,7 +33,7 @@ module Orcid
       it 'should update local' do
         # Don't want to hit the database
         subject.should_receive(:update_column).with(:orcid_profile_id, orcid_profile_id)
-        user.should_receive(:attach_orcid_profile_id).with(orcid_profile_id)
+        Orcid.should_receive(:connect_user_and_orcid_profile).with(user, orcid_profile_id)
 
         subject.handle_profile_creation_response(orcid_profile_id)
       end

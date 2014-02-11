@@ -1,6 +1,10 @@
 module Orcid
   module_function
 
+  def connect_user_and_orcid_profile(user, orcid_profile_id)
+    Authentication.create!(provider: 'orcid', uid: orcid_profile_id, user: user)
+  end
+
   def profile_for(object)
   end
 

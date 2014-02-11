@@ -24,7 +24,4 @@ class User < ActiveRecord::Base
     references(:authentications).first
   end
 
-  def attach_orcid_profile_id(orcid_profile_id)
-    authentications.create(provider: 'orcid', uid: orcid_profile_id)
-  end
 end

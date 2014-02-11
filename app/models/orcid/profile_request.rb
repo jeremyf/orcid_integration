@@ -76,7 +76,7 @@ module Orcid
     def handle_profile_creation_response(orcid_profile_id)
       self.class.transaction do
         update_column(:orcid_profile_id, orcid_profile_id)
-        user.attach_orcid_profile_id(orcid_profile_id)
+        Orcid.connect_user_and_orcid_profile(user, orcid_profile_id)
       end
     end
 
