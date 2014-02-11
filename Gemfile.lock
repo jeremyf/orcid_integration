@@ -1,5 +1,6 @@
-PATH
-  remote: ../omniauth-orcid
+GIT
+  remote: git://github.com/jeremyf/omniauth-orcid.git
+  revision: 116a6b56783d5cb34c68eee8c616bd2985b2b53f
   specs:
     omniauth-orcid (0.6)
       omniauth (~> 1.0)
