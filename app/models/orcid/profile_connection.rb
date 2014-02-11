@@ -4,6 +4,7 @@ module Orcid
     extend ActiveModel::Naming
     attribute :email
     attribute :orcid_profile_id
+    attribute :user
 
     def persisted?; false; end
 

@@ -6,6 +6,7 @@ module Orcid
     subject { Orcid::ProfileConnection.new(email: email) }
 
     its(:email) { should eq email }
+    its(:user) { should be_nil }
     its(:persisted?) { should eq false }
     its(:orcid_profile_id) { should be_nil }
 
