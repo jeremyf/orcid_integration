@@ -12,6 +12,10 @@ module Orcid
     end
     let(:user) { mock_model('User') }
 
+    context 'GET #index' do
+      it_prompts_unauthenticated_users_for_signin(:get, :index)
+    end
+
     context 'GET #new' do
       it_prompts_unauthenticated_users_for_signin(:get, :new)
 

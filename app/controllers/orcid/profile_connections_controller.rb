@@ -3,6 +3,10 @@ module Orcid
     respond_to :html
     before_filter :authenticate_user!
 
+    def index
+      render text: 'Not yet implemented!'
+    end
+
     def new
       assign_attributes(new_profile_connection)
       respond_with(new_profile_connection)
