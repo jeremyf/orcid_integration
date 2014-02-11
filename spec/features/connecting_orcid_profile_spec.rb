@@ -11,33 +11,36 @@ describe 'connecting orcid profile' do
   context 'with a newly created system user' do
     let(:user) { User.where(email: email).first }
 
-    context 'without existing ORCID account', requires_net_connect: true do
+    context 'with net connect', requires_net_connect: true do
       around(:each) do |example|
         WebMock.allow_net_connect!
         example.run
         WebMock.disable_net_connect!
       end
-      it 'should allow me to create an ORCID account' do
-        register_user(email, password)
-        create_orcid
+      context 'create account' do
+        it 'creates an ORCID account and connects to it' do
+          register_user(email, password)
+          create_orcid
+        end
       end
     end
-    context 'with existing ORCID account' do
-      let(:email) { 'jeremy.n.friesen@gmail.com' }
+
+    context 'without net connect' do
+      let(:label) { "A Person [ORCID: #{orcid_profile_id}]" }
+      before(:each) do
+        # An unfortunate issue related to various environments; Stubbing behavior.
+        Orcid.should_receive(:profile_search_access_token).and_return(access_token)
+        Qa::Authorities::OrcidProfile.any_instance.should_receive(:call).and_return([ OpenStruct.new('id' => orcid_profile_id, 'label' => label)])
+      end
       it 'should allow me to connect to an existing ORCID account' do
         register_user(email, password)
-        connect_to_orcid(email)
+        connect_to_orcid(email, label)
       end
     end
 
   end
 
-  def connect_to_orcid(with_email)
-    # An unfortunate issue related to various environments; Stubbing behavior.
-    label = "A Person"
-    Orcid.should_receive(:profile_search_access_token).and_return(access_token)
-    Qa::Authorities::OrcidProfile.any_instance.should_receive(:call).and_return([ OpenStruct.new('id' => orcid_profile_id, 'label' => label)])
-
+  def connect_to_orcid(with_email, label)
     click_on("Connect to my existing ORCID Profile")
 
     within('form.search-form') do
