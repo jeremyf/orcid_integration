@@ -22,6 +22,8 @@ gem 'email_validator'
 gem 'rails_layout'
 gem 'qa'
 gem 'virtus'
+gem 'mappy', github: 'jeremyf/mappy'
+
 group :debug do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :rbx]

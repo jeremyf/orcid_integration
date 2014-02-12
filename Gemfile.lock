@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/jeremyf/mappy.git
+  revision: e8f0fe832fcb002f35d6a3a076c7143261bedf35
+  specs:
+    mappy (0.0.2)
+      activesupport
+
+GIT
   remote: git://github.com/jeremyf/omniauth-orcid.git
   revision: 116a6b56783d5cb34c68eee8c616bd2985b2b53f
   specs:
@@ -320,6 +327,7 @@ DEPENDENCIES
   guard-rspec
   jbuilder (~> 1.2)
   jquery-rails
+  mappy!
   omniauth-github
   omniauth-orcid!
   qa
