@@ -42,7 +42,7 @@ module Orcid
 
   def access_token_creation_service
     if ENV['ORCID_ENVIRONMENT'] == 'sandbox'
-      Orcid::Sandbox
+      Orcid::CreateSandboxAccessTokenService
     else
       Orcid::CreateAccessTokenService
     end

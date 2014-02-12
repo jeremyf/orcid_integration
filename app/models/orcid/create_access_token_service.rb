@@ -1,4 +1,9 @@
 module Orcid
+
+  # Responsible for requesting access tokens
+  #
+  # Note Orcid::CreateSandboxAccessTokenService.call and Orcid::CreateAccessTokenService.call
+  # should have the same structured output.
   class CreateAccessTokenService
     def self.call(parameters, config = {})
       new(config).call(parameters)
