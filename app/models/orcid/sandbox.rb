@@ -66,9 +66,6 @@ module Orcid
       uri = File.join("http://api.sandbox-1.orcid.org", 'oauth/token')
       response = RestClient.post(uri, payload, headers)
       JSON.parse(response.body)
-    rescue RestClient::Exception => e
-      require 'byebug'; byebug; true;
-      raise e
     end
 
   end
