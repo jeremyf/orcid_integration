@@ -1,5 +1,5 @@
 module Orcid
-  class ApplicationAccessTokenCreationService
+  class CreateAccessTokenService
     def self.call(parameters, config = {})
       new(config).call(parameters)
     end

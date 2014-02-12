@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 module Orcid
-  describe ApplicationAccessTokenCreationService do
+  describe CreateAccessTokenService do
     let(:config) {
       {
         client_id: '0000-0002-9189-9910',

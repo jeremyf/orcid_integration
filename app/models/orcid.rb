@@ -44,7 +44,7 @@ module Orcid
     if ENV['ORCID_ENVIRONMENT'] == 'sandbox'
       Orcid::Sandbox
     else
-      Orcid::ApplicationAccessTokenCreationService
+      Orcid::CreateAccessTokenService
     end
   end
 
