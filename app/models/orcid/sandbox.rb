@@ -1,5 +1,8 @@
 require 'rest-client'
 module Orcid
+  #
+  # This class encapsulates the CURL method for generating access tokens.
+  # http://support.orcid.org/knowledgebase/articles/179969-methods-to-generate-an-access-token-for-testing
   class Sandbox
     def self.call(options = {}, config = {})
       new(config).call(options)

@@ -22,25 +22,30 @@ module Orcid
     object.run
   end
 
-  # @NOTE - The tokens may expire; This is presently note handled.
+  # @NOTE - The tokens may expire; This is presently not handled.
   def profile_creation_access_token(options = {})
-    creation_service = options.fetch(:creation_service) { Orcid::ApplicationAccessTokenCreationService }
-    creation_service = options.fetch(:creation_service) { Orcid::Sandbox }
+    creation_service = options.fetch(:creation_service) { Orcid.access_token_creation_service }
     cache[:profile_creation_access_token] ||= creation_service.call(scope: '/orcid-profile/create', grant_type:'client_credentials').fetch('access_token')
   end
 
-  # @NOTE - The tokens may expire; This is presently note handled.
+  # @NOTE - The tokens may expire; This is presently not handled.
   def profile_search_access_token(options = {})
-    creation_service = options.fetch(:creation_service) { Orcid::ApplicationAccessTokenCreationService }
-    creation_service = options.fetch(:creation_service) { Orcid::Sandbox }
+    creation_service = options.fetch(:creation_service) { Orcid.access_token_creation_service }
     cache[:profile_search_access_token] ||= creation_service.call(scope: '/read-public', grant_type:'client_credentials').fetch('access_token')
   end
 
-  # @NOTE - The tokens may expire; This is presently note handled.
+  # @NOTE - The tokens may expire; This is presently not handled.
   def work_creation_access_token(options = {})
-    creation_service = options.fetch(:creation_service) { Orcid::ApplicationAccessTokenCreationService }
-    creation_service = options.fetch(:creation_service) { Orcid::Sandbox }
+    creation_service = options.fetch(:creation_service) { Orcid.access_token_creation_service }
     cache[:work_creation_access_token] ||= creation_service.call(scope: '/orcid-works/create', grant_type:'client_credentials').fetch('access_token')
+  end
+
+  def access_token_creation_service
+    if ENV['ORCID_ENVIRONMENT'] == 'sandbox'
+      Orcid::Sandbox
+    else
+      Orcid::ApplicationAccessTokenCreationService
+    end
   end
 
   def cache
