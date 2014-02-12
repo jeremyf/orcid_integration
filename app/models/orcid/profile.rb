@@ -8,10 +8,10 @@ module Orcid
 
     def append_new_work(work, config = {})
       remote_service = config.fetch(:remote_service) { Orcid::AppendNewWorkService }
-      work_to_orcid_xml_transformer = config.fetch(:to_orcid_xml_mapper) { Orcid::AppendWorkMapper }
+      mapper = config.fetch(:mapper)
+      orcid_work = mapper.map(source: work, target: 'Orcid::Work')
 
-      xml = work_to_orcid_xml_transformer.call(work)
-      remote_service.call(orcid_profile_id, xml)
+      remote_service.call(orcid_profile_id, orcid_work.to_xml)
     end
 
   end

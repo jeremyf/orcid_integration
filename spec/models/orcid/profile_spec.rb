@@ -6,16 +6,16 @@ module Orcid
     subject { described_class.new(orcid_profile_id) }
 
     context '#append_new_work' do
-      let(:work) { double("A Work") }
-      let(:payload) { double("A Payload") }
+      let(:non_orcid_work) { double("A non-ORCID Work") }
+      let(:orcid_work) { double("Orcid::Work", to_xml: 'Look I am XML') }
       let(:remote_service) { double('Service') }
-      let(:to_orcid_xml_mapper) { double('to_xml Service') }
+      let(:mapper) { double("Mapper") }
 
-      it 'should submit a request to the AppendNewWorkService' do
-        remote_service.should_receive(:call).with(orcid_profile_id, payload)
-        to_orcid_xml_mapper.should_receive(:call).with(work).and_return(payload)
+      it 'should transform the input work to xml and deliver to the remote_service' do
+        remote_service.should_receive(:call).with(orcid_profile_id, orcid_work.to_xml)
+        mapper.should_receive(:map).with(source: non_orcid_work, target: 'Orcid::Work').and_return(orcid_work)
 
-        subject.append_new_work(work, remote_service: remote_service, to_orcid_xml_mapper: to_orcid_xml_mapper)
+        subject.append_new_work(non_orcid_work, remote_service: remote_service, mapper: mapper)
       end
     end
   end
