@@ -11,7 +11,7 @@ module Orcid
     yield(configuration)
   end
 
-  def connect_user_and_orcid_profile(user, orcid_profile_id)
+  def connect_user_and_orcid_profile(user, orcid_profile_id, options = {})
     Authentication.create!(provider: 'orcid', uid: orcid_profile_id, user: user)
   end
 

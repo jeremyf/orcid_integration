@@ -8,8 +8,8 @@ module Qa::Authorities
     end
 
     def initialize(config = {})
-      @host = config.fetch(:host) { Orcid.configuration.app_host }
-      @access_token = config.fetch(:access_token) { Orcid.profile_search_access_token }
+      @client = OAuth2::Client.new(ENV['ORCID_APP_ID'], ENV['ORCID_APP_SECRET'], site: ENV['ORCID_SITE_URL'])
+      @token = @client.client_credentials.get_token(scope: '/read-public')
     end
 
     def call(parameters)
@@ -21,7 +21,7 @@ module Qa::Authorities
     protected
     attr_reader :host, :access_token
     def deliver(parameters)
-      RestClient.get(uri, headers.merge(params: parameters))
+      @token.get("v1.1/search/orcid-bio/", headers: headers, params: parameters)
     end
 
     def parse(document)
