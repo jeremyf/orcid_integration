@@ -1,6 +1,11 @@
 require 'spec_helper'
 
 describe Orcid do
+  context '.oauth_client' do
+    subject { Orcid.oauth_client }
+    it { should respond_to :client_credentials }
+  end
+
   context '.configure' do
     it 'should yield a configuration' do
       expect{|b| Orcid.configure(&b) }.to yield_with_args(Orcid::Configuration)
