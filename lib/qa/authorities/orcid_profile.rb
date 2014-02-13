@@ -7,9 +7,16 @@ module Qa::Authorities
       new(config).call(query)
     end
 
+    attr_reader :token, :path, :headers
     def initialize(config = {})
-      @client = OAuth2::Client.new(ENV['ORCID_APP_ID'], ENV['ORCID_APP_SECRET'], site: ENV['ORCID_SITE_URL'])
-      @token = @client.client_credentials.get_token(scope: '/read-public')
+      @token = config.fetch(:token) { Orcid.client_credentials_token }
+      @path = config.fetch(:path) { "v1.1/search/orcid-bio/" }
+      @headers = config.fetch(:headers) {
+        {
+          :accept => 'application/orcid+json',
+          'Content-Type'=>'application/orcid+xml'
+        }
+      }
     end
 
     def call(parameters)
@@ -21,7 +28,7 @@ module Qa::Authorities
     protected
     attr_reader :host, :access_token
     def deliver(parameters)
-      @token.get("v1.1/search/orcid-bio/", headers: headers, params: parameters)
+      token.get(path, headers: headers, params: parameters)
     end
 
     def parse(document)
@@ -40,18 +47,6 @@ module Qa::Authorities
 
         returning_value << OpenStruct.new("id" => identifier, "label" => label)
       end
-    end
-
-    def uri
-      File.join(host, "v1.1/search/orcid-bio/")
-    end
-
-    def headers
-      {
-        :accept => 'application/orcid+json',
-        'Authorization' => "Bearer #{access_token}",
-        'Content-Type'=>'application/orcid+xml'
-      }
     end
 
   end

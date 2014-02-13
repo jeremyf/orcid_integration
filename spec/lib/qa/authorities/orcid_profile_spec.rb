@@ -3,39 +3,17 @@ require 'ostruct'
 
 module Qa::Authorities
   describe OrcidProfile do
-    let(:user) { double }
     let(:email) { 'corwin@amber.gov' }
-    let(:config) { {access_token: access_token, host: 'https://api.sandbox-1.orcid.org'} }
-    let(:access_token) { '6e43b7b9-7d78-4fee-baa4-76acee469b7d' }
-    let(:orcid_profile_id) { '0000-0001-8025-637X'}
-
-    let(:request_headers) {
-      {
-        'Content-Type' => 'application/orcid+xml',
-        'Accept' => 'application/orcid+json',
-        'Authorization' => "Bearer #{access_token}"
-      }
-    }
-
-    let(:response_headers) { {} }
+    let(:orcid_profile_id) { '0001-0002' }
+    let(:config) { { token: token, path: 'somehwere', headers: 'headers' } }
+    let(:response) { double("Response", body: response_body)} # See below
+    let(:token) { double("Token") }
     let(:json_response) { [ OpenStruct.new({ 'id' => orcid_profile_id, 'label' => "Corwin Amber (#{email}) [ORCID: #{orcid_profile_id}]" }) ] }
-
-    before(:each) do
-      stub_request(:get, File.join(config[:host], "v1.1/search/orcid-bio/?q=email:#{email}")).
-        with(headers: request_headers).
-        to_return(status: 200, headers: response_headers, body: response_body)
-    end
     let(:parameters) { {q: "email:#{email}"} }
-
-    context '#call' do
-      subject { described_class.new(config) }
-      it 'should return a JSON object' do
-        expect(subject.call(parameters)).to eq(json_response)
-      end
-    end
 
     context '.call' do
       it 'should return a JSON object' do
+        token.should_receive(:get).with(config[:path], headers: config[:headers], params: parameters).and_return(response)
         expect(described_class.call(parameters, config)).to eq(json_response)
       end
     end
