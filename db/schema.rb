@@ -17,11 +17,14 @@ ActiveRecord::Schema.define(version: 20140205185338) do
     t.integer  "user_id"
     t.string   "provider"
     t.string   "uid"
+    t.string   "access_token"
+    t.string   "refresh_token"
+    t.datetime "expires_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "authentications", ["provider", "uid"], name: "index_authentications_on_provider_and_uid"
+  add_index "authentications", ["provider", "uid"], name: "index_authentications_on_provider_and_uid", unique: true
 
   create_table "orcid_profile_requests", force: true do |t|
     t.integer  "user_id",          null: false
