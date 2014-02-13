@@ -15,7 +15,7 @@ module Orcid
     end
 
     def app_host
-      @app_host ||= store.fetch('ORCID_APP_HOST') { 'https://api.sandbox-1.orcid.org' }
+      @app_host ||= store.fetch('ORCID_SITE_URL')
     end
   end
 end

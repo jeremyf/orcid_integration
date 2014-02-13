@@ -2,7 +2,7 @@ require 'spec_helper'
 
 module Orcid
   describe Configuration do
-    let(:storage) { { 'ORCID_APP_ID' => 'app_id', 'ORCID_APP_SECRET' => 'app_secret', 'ORCID_APP_HOST' => 'app_host'} }
+    let(:storage) { { 'ORCID_APP_ID' => 'app_id', 'ORCID_APP_SECRET' => 'app_secret', 'ORCID_SITE_URL' => 'app_host'} }
 
     subject { described_class.new }
 
@@ -10,7 +10,7 @@ module Orcid
       subject { described_class.new(storage) }
       its(:app_id) { should eq storage['ORCID_APP_ID'] }
       its(:app_secret) { should eq storage['ORCID_APP_SECRET'] }
-      its(:app_host) { should eq storage['ORCID_APP_HOST'] }
+      its(:app_host) { should eq storage['ORCID_SITE_URL'] }
     end
 
     context 'over-writing storage' do
