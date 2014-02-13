@@ -9,7 +9,7 @@ module Qa::Authorities
 
     attr_reader :token, :path, :headers
     def initialize(config = {})
-      @token = config.fetch(:token) { Orcid.client_credentials_token }
+      @token = config.fetch(:token) { Orcid.client_credentials_token('/read-public') }
       @path = config.fetch(:path) { "v1.1/search/orcid-bio/" }
       @headers = config.fetch(:headers) {
         {

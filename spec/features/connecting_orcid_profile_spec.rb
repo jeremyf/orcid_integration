@@ -26,16 +26,6 @@ describe 'connecting orcid profile' do
 
       if ENV['ORCID_EXISTING_PUB_EMAIL'] && ENV['ORCID_EXISTING_PUB_PROFILE_ID'] && ENV['ORCID_EXISTING_PUB_NAME']
         context 'existing account' do
-          around(:each) do |example|
-            old_host = Orcid.configuration.app_host
-            Orcid.configuration.app_host = 'https://pub.orcid.org'
-            Orcid.should_receive(:profile_search_access_token).and_return(access_token)
-
-            example.run
-
-            Orcid.configuration.app_host = old_host
-          end
-
           let(:email) { ENV['ORCID_EXISTING_PUB_EMAIL'] }
           let(:name) { ENV['ORCID_EXISTING_PUB_NAME'] }
           let(:orcid_profile_id) { ENV['ORCID_EXISTING_PUB_PROFILE_ID'] }
@@ -52,9 +42,7 @@ describe 'connecting orcid profile' do
     context 'without net connect' do
       let(:label) { "A Person [ORCID: #{orcid_profile_id}]" }
       before(:each) do
-        # An unfortunate issue related to various environments; Stubbing behavior.
-        Orcid.should_receive(:profile_search_access_token).and_return(access_token)
-        Qa::Authorities::OrcidProfile.any_instance.should_receive(:call).and_return([ OpenStruct.new('id' => orcid_profile_id, 'label' => label)])
+        Qa::Authorities::OrcidProfile.should_receive(:call).and_return([ OpenStruct.new('id' => orcid_profile_id, 'label' => label)])
       end
       it 'should allow me to connect to an existing ORCID account' do
         register_user(email, password)

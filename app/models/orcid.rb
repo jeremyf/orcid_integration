@@ -22,6 +22,15 @@ module Orcid
     object.run
   end
 
+  def oauth_client
+    @oauth_client ||= OAuth2::Client.new(ENV['ORCID_APP_ID'], ENV['ORCID_APP_SECRET'], site: ENV['ORCID_SITE_URL'])
+  end
+
+  def client_credentials_token(scope, options = {})
+    tokenizer = options.fetch(:tokenizer) { Orcid.oauth_client.client_credentials }
+    tokenizer.get_token(scope: scope)
+  end
+
   # @NOTE - The tokens may expire; This is presently not handled.
   def profile_creation_access_token(options = {})
     creation_service = options.fetch(:creation_service) { Orcid.access_token_creation_service }
