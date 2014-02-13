@@ -5,7 +5,7 @@ describe AuthenticationsController do
   let(:uid) { '12345' }
   before(:each) do
     @request.env["devise.mapping"] = Devise.mappings[:user]
-    OmniAuth.config.add_mock(provider, {uid: uid})
+    OmniAuth.config.add_mock(provider, {uid: uid, credentials: {}})
     request.env["omniauth.auth"] = OmniAuth.config.mock_auth[provider]
   end
 
