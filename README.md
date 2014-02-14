@@ -9,6 +9,14 @@
 * ~~Export data into ORCID from the IR~~
 * Import data from ORCID into the IR
 
+## Detailed TODO
+
+* Handle pushing Orcid Work to an unclaimed Orcid profile
+* Handle pushing Orcid Work to a claimed Orcid profile that has not authenticated.
+* Update Orcid Work XML template
+* Verify pushing an Orcid Work with the same name but different attributes.
+* Verify pushing an Orcid Work with the same name but different work types.
+
 ## You'll Need a (Self Signed) Certificate
 
 * http://www.railway.at/2013/02/12/using-ssl-in-your-local-rails-environment/
