@@ -28,9 +28,9 @@ ActiveRecord::Schema.define(version: 20140205185338) do
 
   create_table "orcid_profile_requests", force: true do |t|
     t.integer  "user_id",          null: false
-    t.string   "given_names"
-    t.string   "family_name"
-    t.string   "primary_email"
+    t.string   "given_names",      null: false
+    t.string   "family_name",      null: false
+    t.string   "primary_email",    null: false
     t.string   "orcid_profile_id"
     t.datetime "created_at"
     t.datetime "updated_at"
