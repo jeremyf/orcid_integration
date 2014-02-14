@@ -13,7 +13,7 @@ class CaptureSuccessfulExternalAuthentication
   def call
     object = Authentication.where(user: user).where(auth.slice(:provider, :uid)).first_or_initialize
     object.access_token = auth.fetch(:credentials)[:token]
-    object.refresh_token = auth.fetch(:credentials)[:token]
+    object.refresh_token = auth.fetch(:credentials)[:refresh_token]
     object.save!
   end
 end
