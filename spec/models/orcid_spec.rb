@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Orcid do
   context '.oauth_client' do
     subject { Orcid.oauth_client }
-    it { should respond_to :client_credentials }
+    its(:client_credentials) { should respond_to :get_token }
   end
 
   context '.configure' do
