@@ -34,10 +34,10 @@ describe 'non-UI based interactions' , requires_net_connect: true do
     end
   end
 
-  context 'appending a work to an already claimed orcid and authorized' do
+  context 'appending a work to an already claimed orcid and authorized', requires_net_connect: true do
     let(:orcid_profile) { Orcid::Profile.new(orcid_profile_id) }
-    let(:orcid_profile_id) { ENV['ORCID_CLAIMED_PROFILE_ID']}
-    let(:orcid_profile_password) { ENV['ORCID_CLAIMED_PROFILE_PASSWORD']}
+    let(:orcid_profile_id) { ENV.fetch('ORCID_CLAIMED_PROFILE_ID')}
+    let(:orcid_profile_password) { ENV.fetch('ORCID_CLAIMED_PROFILE_PASSWORD')}
     let(:work) { Orcid::Work.new(title: "Test Driven Orcid Integration #23", work_type: 'test') }
     let(:user) { FactoryGirl.create(:user) }
 
