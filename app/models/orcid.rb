@@ -43,14 +43,6 @@ module Orcid
     cache[:work_creation_access_token] ||= creation_service.call(scope: '/orcid-works/create', grant_type:'client_credentials').fetch('access_token')
   end
 
-  def access_token_creation_service
-    if ENV['ORCID_ENVIRONMENT'] == 'sandbox'
-      Orcid::CreateSandboxAccessTokenService
-    else
-      Orcid::CreateAccessTokenService
-    end
-  end
-
   def cache
     @cache ||= {}
   end
