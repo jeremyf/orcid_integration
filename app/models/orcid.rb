@@ -15,6 +15,11 @@ module Orcid
     Authentication.create!(provider: 'orcid', uid: orcid_profile_id, user: user)
   end
 
+  def access_token_for(orcid_profile_id, options = {})
+    Authentication.where(uid: orcid_profile_id, provider: 'orcid').first.
+      to_access_token(client: oauth_client)
+  end
+
   def profile_for(object)
   end
 
@@ -29,12 +34,6 @@ module Orcid
   def client_credentials_token(scope, options = {})
     tokenizer = options.fetch(:tokenizer) { Orcid.oauth_client.client_credentials }
     tokenizer.get_token(scope: scope)
-  end
-
-  # @NOTE - The tokens may expire; This is presently not handled.
-  def work_creation_access_token(options = {})
-    creation_service = options.fetch(:creation_service) { Orcid.access_token_creation_service }
-    cache[:work_creation_access_token] ||= creation_service.call(scope: '/orcid-works/create', grant_type:'client_credentials').fetch('access_token')
   end
 
   def cache

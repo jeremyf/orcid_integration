@@ -229,7 +229,7 @@ Devise.setup do |config|
   # up on your models and hooks.
   config.omniauth :github, ENV['GITHUB_APP_ID'], ENV['GITHUB_APP_SECRET'], :scope => 'user,public_repo'
   config.omniauth(:orcid, ENV['ORCID_APP_ID'], ENV['ORCID_APP_SECRET'],
-                  scope: '/authenticate,/orcid-works/create,/orcid-works/update,/read-public',
+                  scope: ENV['ORCID_APP_AUTHENTICATION_SCOPE'],
                   client_options: {
                     site: ENV['ORCID_SITE_URL'],
                     authorize_url: ENV['ORCID_AUTHORIZE_URL'],

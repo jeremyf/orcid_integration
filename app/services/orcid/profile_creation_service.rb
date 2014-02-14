@@ -7,7 +7,7 @@ module Orcid
     end
 
     attr_reader :token, :path, :headers
-    def initialize(config)
+    def initialize(config = {})
       @token = config.fetch(:token) { Orcid.client_credentials_token('/orcid-profile/create') }
       @path = config.fetch(:path) { "v1.1/orcid-profile" }
       @headers = config.fetch(:headers) { default_headers }
