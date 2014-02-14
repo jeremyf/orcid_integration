@@ -15,6 +15,11 @@ module Orcid
     Authentication.create!(provider: 'orcid', uid: orcid_profile_id, user: user)
   end
 
+  def access_token_for(orcid_profile_id, options = {})
+    Authentication.where(uid: orcid_profile_id, provider: 'orcid').first.
+      to_access_token(client: oauth_client)
+  end
+
   def profile_for(object)
   end
 
