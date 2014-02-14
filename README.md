@@ -6,7 +6,7 @@
 * ~~Retrieve an existing Orcid profile~~
 * ~~Create an Orcid profile for a user~~
 * Large scale creation and assignment of Orcids
-* Export data into ORCID from the IR
+* ~~Export data into ORCID from the IR~~
 * Import data from ORCID into the IR
 
 ## You'll Need a (Self Signed) Certificate
