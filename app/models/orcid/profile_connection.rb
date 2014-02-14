@@ -1,4 +1,6 @@
 module Orcid
+  # Responsible for connecting an authenticated user to the ORCID profile that
+  # the user searched for and selected.
   class ProfileConnection
     include Virtus.model
     include ActiveModel::Validations

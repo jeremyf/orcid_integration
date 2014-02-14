@@ -1,4 +1,6 @@
 module Orcid
+  # A well-defined data structure that coordinates with its :template in order
+  # to generate XML that can be POSTed/PUT as an Orcid Work.
   class Work
     VALID_WORK_TYPES = [
       "artistic-performance","book-chapter","book-review","book","conference-abstract","conference-paper","conference-poster","data-set","dictionary-entry","disclosure","dissertation","edited-book","encyclopedia-entry","invention","journal-article","journal-issue","lecture-speech","license","magazine-article","manual","newsletter-article","newspaper-article","online-resource","other","patent","registered-copyright","report","research-technique","research-tool","spin-off-company","standards-and-policy","supervised-student-publication","technical-standard","test","translation","trademark","website","working-paper",
