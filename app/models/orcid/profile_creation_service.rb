@@ -6,10 +6,11 @@ module Orcid
       new(config).call(payload)
     end
 
-    attr_reader :host, :access_token
+    attr_reader :token, :path, :headers
     def initialize(config)
-      @host = config.fetch(:host) { Orcid.configuration.app_host }
-      @access_token = config.fetch(:access_token) { Orcid.profile_creation_access_token }
+      @token = config.fetch(:token) { Orcid.client_credentials_token('/orcid-profile/create') }
+      @path = config.fetch(:path) { "v1.1/orcid-profile" }
+      @headers = config.fetch(:headers) { default_headers }
     end
 
     def call(payload)
@@ -18,24 +19,17 @@ module Orcid
     end
 
     protected
-    def deliver(payload)
-      RestClient.post(uri, payload, headers)
+    def deliver(body)
+      token.post(path, body: body, headers: headers)
     end
 
     def parse(response)
-      response.headers.fetch(:location).sub(host, '').split("/")[1]
+      uri = URI.parse(response.headers.fetch(:location))
+      uri.path.sub(/\A\//, "").split("/").first
     end
 
-    def uri
-      File.join(host, "v1.1/orcid-profile")
-    end
-
-    def headers
-      {
-        :accept => :xml,
-        'Authorization' => "Bearer #{access_token}",
-        'Content-Type'=>'application/vdn.orcid+xml'
-      }
+    def default_headers
+      { "Accept" => 'application/xml', 'Content-Type'=>'application/vdn.orcid+xml' }
     end
   end
 end

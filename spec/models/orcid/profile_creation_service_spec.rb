@@ -2,43 +2,25 @@ require 'spec_helper'
 
 describe Orcid::ProfileCreationService do
   let(:payload) { %(<?xml version="1.0" encoding="UTF-8"?>) }
-  let(:user) { double }
-  let(:config) { {access_token: access_token, host: 'https://api.sandbox-1.orcid.org'} }
-  let(:access_token) { '6e43b7b9-7d78-4fee-baa4-76acee469b7d' }
-
+  let(:config) { {token: token, headers: request_headers, path: 'path/to/somewhere' } }
+  let(:token) { double("Token") }
   let(:minted_orcid) { '0000-0001-8025-637X' }
   let(:request_headers) {
-    {
-      'Content-Type' => 'application/vdn.orcid+xml',
-      'Accept' => 'application/xml',
-      'Authorization' => "Bearer #{access_token}"
-    }
+    { 'Content-Type' => 'application/vdn.orcid+xml', 'Accept' => 'application/xml' }
   }
-  let(:response_headers) {
-    {
-      'Location' => File.join(config[:host], minted_orcid, "orcid-profile")
-    }
+  let(:response) {
+    double("Response", headers: { location: File.join("/", minted_orcid, "orcid-profile") })
   }
 
   subject { described_class.new(config) }
-  before(:each) do
-    stub_request(:post, File.join(config[:host], "v1.1/orcid-profile")).
-      with(body: payload, headers: request_headers).
-      to_return(status: 201, headers: response_headers)
-  end
 
   context '.call' do
     it 'instantiates and calls underlying instance' do
+      token.should_receive(:post).
+        with(config.fetch(:path), body: payload, headers: request_headers).
+        and_return(response)
       expect(described_class.call(payload, config)).to eq(minted_orcid)
     end
   end
 
-  context '#call' do
-
-    context 'with valid data' do
-      it 'should return the minted orcid' do
-        expect(subject.call(payload)).to eq(minted_orcid)
-      end
-    end
-  end
 end
