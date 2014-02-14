@@ -14,9 +14,9 @@
 ActiveRecord::Schema.define(version: 20140205185338) do
 
   create_table "authentications", force: true do |t|
-    t.integer  "user_id"
-    t.string   "provider"
-    t.string   "uid"
+    t.integer  "user_id",       null: false
+    t.string   "provider",      null: false
+    t.string   "uid",           null: false
     t.string   "access_token"
     t.string   "refresh_token"
     t.datetime "expires_at"

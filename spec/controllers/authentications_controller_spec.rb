@@ -24,7 +24,9 @@ describe AuthenticationsController do
       before(:each) do
         User.should_receive(:find_by_provider_and_uid).with(provider.to_s, uid).and_return(user)
       end
-      let(:user) { User.new }
+      # Adding an ID because this request is hitting the database.
+      # Trying to figure out why.
+      let(:user) { User.new(id: 123) }
       it 'should assign the user and redirect to home' do
         get provider
         expect(assigns(:user)).to eq(user)

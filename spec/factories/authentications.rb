@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :authentication do
-    association :user, strategy: :build
+    association :user, strategy: :build_stubbed
     provider "twitter"
     uid "1234"
   end
