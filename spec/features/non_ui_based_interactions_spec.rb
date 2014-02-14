@@ -51,8 +51,7 @@ describe 'non-UI based interactions' , requires_net_connect: true do
     end
 
     it 'should increment orcid works' do
-      user_token = user.authentications.where(provider: 'orcid').first.to_access_token
-      expect(Orcid::AppendNewWorkService.call(orcid_profile_id, work.to_xml, token: user_token)).to eq(true)
+      expect(Orcid::AppendNewWorkService.call(orcid_profile_id, work.to_xml)).to eq(true)
     end
   end
 end

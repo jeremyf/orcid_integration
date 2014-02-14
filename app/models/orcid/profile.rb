@@ -8,10 +8,8 @@ module Orcid
 
     def append_new_work(work, config = {})
       remote_service = config.fetch(:remote_service) { Orcid::AppendNewWorkService }
-      token = config.fetch(:token) { Orcid.access_token_for(orcid_profile_id) }
       orcid_work = normalize_work(work, config)
-
-      remote_service.call(orcid_profile_id, orcid_work.to_xml, token: token)
+      remote_service.call(orcid_profile_id, orcid_work.to_xml)
     end
 
     protected
