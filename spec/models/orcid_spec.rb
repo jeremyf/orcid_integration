@@ -11,6 +11,18 @@ describe Orcid do
       expect{|b| Orcid.configure(&b) }.to yield_with_args(Orcid::Configuration)
     end
   end
+
+  context '.client_credentials_token' do
+    let(:tokenizer) { double('Tokenizer') }
+    let(:scope) { '/my-scope' }
+    let(:token) { double('Token') }
+
+    it 'should request the scoped token from the tokenizer' do
+      tokenizer.should_receive(:get_token).with(scope: scope).and_return(token)
+      expect(Orcid.client_credentials_token(scope, tokenizer: tokenizer)).to eq(token)
+    end
+  end
+
   context '.connect_user_and_orcid_profile' do
     let(:user) { FactoryGirl.build_stubbed(:user) }
     let(:orcid_profile_id) { '0100-0012' }
@@ -31,15 +43,4 @@ describe Orcid do
     end
   end
 
-  context '.work_creation_access_token' do
-    let(:creation_service) { double('Service') }
-    let(:service_response) { { 'access_token' => access_token } }
-    let(:access_token) { double('Access Token') }
-    it 'should return the access_token' do
-      creation_service.should_receive(:call).
-        with(scope: '/orcid-works/create', grant_type:'client_credentials').
-        and_return(service_response)
-      expect(Orcid.work_creation_access_token(creation_service: creation_service)).to eq(access_token)
-    end
-  end
 end

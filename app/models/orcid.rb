@@ -31,12 +31,6 @@ module Orcid
     tokenizer.get_token(scope: scope)
   end
 
-  # @NOTE - The tokens may expire; This is presently not handled.
-  def work_creation_access_token(options = {})
-    creation_service = options.fetch(:creation_service) { Orcid.access_token_creation_service }
-    cache[:work_creation_access_token] ||= creation_service.call(scope: '/orcid-works/create', grant_type:'client_credentials').fetch('access_token')
-  end
-
   def cache
     @cache ||= {}
   end
