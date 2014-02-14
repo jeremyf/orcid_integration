@@ -6,9 +6,10 @@ describe 'non-UI based interactions' , requires_net_connect: true do
     example.run
     WebMock.disable_net_connect!
   end
+  let(:work) { Orcid::Work.new(title: "Test Driven Orcid Integration", work_type: 'test') }
+  let(:user) { FactoryGirl.create(:user) }
 
   context 'issue a profile request' do
-    let(:user) { FactoryGirl.create(:user) }
 
     # Because either ORCID or Mailinator are blocking some emails.
     let(:random_valid_email_prefix) { (0...24).map { (65 + rand(26)).chr }.join.downcase }
@@ -17,7 +18,6 @@ describe 'non-UI based interactions' , requires_net_connect: true do
       FactoryGirl.create(:orcid_profile_request, user: user, primary_email: email, primary_email_confirmation: email)
     }
 
-    let(:work) { Orcid::Work.new(title: "Test Driven Orcid Integration", work_type: 'test') }
 
     before(:each) do
       # Making sure things are properly setup
@@ -38,8 +38,6 @@ describe 'non-UI based interactions' , requires_net_connect: true do
     let(:orcid_profile) { Orcid::Profile.new(orcid_profile_id) }
     let(:orcid_profile_id) { ENV.fetch('ORCID_CLAIMED_PROFILE_ID')}
     let(:orcid_profile_password) { ENV.fetch('ORCID_CLAIMED_PROFILE_PASSWORD')}
-    let(:work) { Orcid::Work.new(title: "Test Driven Orcid Integration #23", work_type: 'test') }
-    let(:user) { FactoryGirl.create(:user) }
 
     before(:each) do
       expect(work).to be_valid
