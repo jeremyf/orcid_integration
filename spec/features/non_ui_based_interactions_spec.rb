@@ -51,7 +51,7 @@ describe 'non-UI based interactions' , requires_net_connect: true do
     end
 
     it 'should increment orcid works' do
-      expect(Orcid::AppendNewWorkService.call(orcid_profile_id, work.to_xml)).to eq(true)
+      expect(orcid_profile.append_new_work(work)).to eq(true)
     end
   end
 end
