@@ -25,7 +25,7 @@ module Orcid
 
     context '#append_new_work' do
       it 'should transform the input work to xml and deliver to the remote_service' do
-        xml_renderer.should_receive(:call).with(orcid_work).and_return(xml)
+        xml_renderer.should_receive(:call).with([orcid_work]).and_return(xml)
         remote_service.should_receive(:call).with(orcid_profile_id, xml, :post)
 
         should_map(non_orcid_work, orcid_work)
@@ -36,7 +36,7 @@ module Orcid
 
     context '#replace_works_with' do
       it 'should transform the input work to xml and deliver to the remote_service' do
-        xml_renderer.should_receive(:call).with(orcid_work).and_return(xml)
+        xml_renderer.should_receive(:call).with([orcid_work]).and_return(xml)
         remote_service.should_receive(:call).with(orcid_profile_id, xml, :put)
 
         should_map(non_orcid_work, orcid_work)

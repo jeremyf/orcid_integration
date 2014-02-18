@@ -10,25 +10,28 @@ module Orcid
       @xml_renderer = config.fetch(:xml_renderer) { Orcid::Work::XmlRenderer }
     end
 
-    def append_new_work(works)
-      orcid_works = normalize_work(works)
+    def append_new_work(*works)
+      orcid_works = normalize_work(*works)
       xml = xml_renderer.call(orcid_works)
       remote_service.call(orcid_profile_id, xml, :post)
     end
 
-    def replace_works_with(works)
-      orcid_works = normalize_work(works)
+    def replace_works_with(*works)
+      orcid_works = normalize_work(*works)
       xml = xml_renderer.call(orcid_works)
       remote_service.call(orcid_profile_id, xml, :put)
     end
 
     protected
 
-    def normalize_work(work)
-      if work.is_a?(Orcid::Work)
-        work
-      else
-        mapper.map(work, target: 'orcid/work')
+    # Note: We can handle
+    def normalize_work(*works)
+      Array(works).flatten.compact.collect do |work|
+        if work.is_a?(Orcid::Work)
+          work
+        else
+          mapper.map(work, target: 'orcid/work')
+        end
       end
     end
 
