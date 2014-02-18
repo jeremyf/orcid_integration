@@ -56,9 +56,11 @@ describe 'non-UI based interactions' , requires_net_connect: true do
       replacement_work = Orcid::Work.new(title: "Test Driven Orcid Integration", work_type: 'test')
       appended_work = Orcid::Work.new(title: "Another Test Drive", work_type: 'test')
 
+      require 'byebug'; byebug; true;
+
       expect(subject.replace_works_with(replacement_work)).to eq(true)
 
-      expect(subject.replace_works_with(appended_work)).to eq(true)
+      expect(subject.append_new_work(appended_work)).to eq(true)
     end
   end
 
