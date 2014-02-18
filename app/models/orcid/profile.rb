@@ -1,25 +1,23 @@
 module Orcid
   class Profile
 
-    attr_reader :orcid_profile_id, :mapper
+    attr_reader :orcid_profile_id, :mapper, :remote_service
     private :mapper
     def initialize(orcid_profile_id, config = {})
       @orcid_profile_id = orcid_profile_id
       @mapper = config.fetch(:mapper) { ::Mappy }
+      @remote_service = config.fetch(:remote_service) { Orcid::AppendNewWorkService }
     end
 
     def append_new_work(work, options = {})
-      remote_service = options.fetch(:remote_service) { Orcid::AppendNewWorkService }
       orcid_work = normalize_work(work)
       remote_service.call(orcid_profile_id, orcid_work.to_xml, :post)
     end
 
-    def replace_works_with(work, options = {})
-      remote_service = options.fetch(:remote_service) { Orcid::AppendNewWorkService }
+    def replace_works_with(works, options = {})
       xml_renderer = options.fetch(:xml_renderer)
-      orcid_work = normalize_work(work)
-
-      xml = xml_renderer.call(orcid_work)
+      orcid_works = normalize_work(works)
+      xml = xml_renderer.call(orcid_works)
       remote_service.call(orcid_profile_id, xml, :put)
     end
 
