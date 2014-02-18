@@ -26,3 +26,4 @@ production:
 
 travis: &travis
   <<: *test
+  database: db/travis.sqlite3
