@@ -37,7 +37,9 @@ describe 'non-UI based interactions' , requires_net_connect: true do
 
       orcid_profile = Orcid::Profile.new(orcid_profile_id)
 
-      expect(orcid_profile.append_new_work(work)).to eq(true)
+      orcid_profile.append_new_work(work)
+
+      expect(orcid_profile.remote_works(force: true).count).to eq(1)
     end
 
   end
@@ -56,11 +58,12 @@ describe 'non-UI based interactions' , requires_net_connect: true do
       replacement_work = Orcid::Work.new(title: "Test Driven Orcid Integration", work_type: 'test')
       appended_work = Orcid::Work.new(title: "Another Test Drive", work_type: 'test')
 
-      require 'byebug'; byebug; true;
+      subject.replace_works_with(replacement_work)
 
-      expect(subject.replace_works_with(replacement_work)).to eq(true)
+      expect {
+        subject.append_new_work(appended_work)
+      }.to change { subject.remote_works(force: true).count }.by(1)
 
-      expect(subject.append_new_work(appended_work)).to eq(true)
     end
   end
 

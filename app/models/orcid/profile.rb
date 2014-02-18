@@ -8,12 +8,15 @@ module Orcid
       @mapper = config.fetch(:mapper) { ::Mappy }
       @remote_service = config.fetch(:remote_service) { Orcid::RemoteWorkService }
       @xml_renderer = config.fetch(:xml_renderer) { Orcid::Work::XmlRenderer }
-      @xml_parser = config.fetch(:xml_parser)
+      @xml_parser = config.fetch(:xml_parser) { Orcid::Work::XmlParser }
     end
 
-    def remote_works
-      response = remote_service.call(orcid_profile_id, request_method: :get)
-      xml_parser.call(response)
+    def remote_works(options = {})
+      @remote_works = nil if options.fetch(:force, false)
+      @remote_works ||= begin
+        response = remote_service.call(orcid_profile_id, request_method: :get)
+        xml_parser.call(response)
+      end
     end
 
     def append_new_work(*works)
