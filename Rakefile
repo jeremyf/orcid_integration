@@ -4,9 +4,3 @@
 require File.expand_path('../config/application', __FILE__)
 
 OrcidIntegration::Application.load_tasks
-
-task :ci do
-  ENV['RAILS_ENV'] = 'ci'
-  Rails.env = 'ci'
-  Rake::Task['spec'].invoke
-end

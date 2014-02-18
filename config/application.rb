@@ -5,10 +5,10 @@ require 'rails/all'
 
 # For each of the values of a hash entry, load the hash key's bundle group
 bundle_environment_aliases = Rails.groups(
-    default: %w(production development test ci),
+    default: %w(production development test travis),
     debug: %w(development test),
-    ci: %w(test),
-    test: %w(ci)
+    travis: %w(test),
+    test: %w(travis)
 )
 Bundler.require(*bundle_environment_aliases)
 
