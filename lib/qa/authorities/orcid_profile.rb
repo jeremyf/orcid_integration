@@ -3,13 +3,28 @@ require 'ostruct'
 
 module Qa::Authorities
   class OrcidProfile
+    class SearchResponse
+      delegate :fetch, :has_key?, :[], to: :@attributes
+      def initialize(attributes = {})
+        @attributes = attributes.with_indifferent_access
+      end
+      def id
+        @attributes.fetch(:id)
+      end
+
+      def label
+        @attributes.fetch(:label)
+      end
+    end
+
     def self.call(query, config = {})
       new(config).call(query)
     end
 
-    attr_reader :token, :path, :headers
+    attr_reader :token, :path, :headers, :response_builder
     def initialize(config = {})
       @token = config.fetch(:token) { Orcid.client_credentials_token('/read-public') }
+      @response_builder = config.fetch(:response_builder) { SearchResponse }
       @path = config.fetch(:path) { "v1.1/search/orcid-bio/" }
       @headers = config.fetch(:headers) {
         {
@@ -45,7 +60,7 @@ module Qa::Authorities
         label << " (" << emails.join(",") << ")" if emails.present?
         label << " [ORCID: #{identifier}]"
 
-        returning_value << OpenStruct.new("id" => identifier, "label" => label)
+        returning_value << response_builder.new("id" => identifier, "label" => label)
       end
     end
 

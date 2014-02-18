@@ -5,7 +5,7 @@ module Qa::Authorities
   describe OrcidProfile do
     let(:email) { 'corwin@amber.gov' }
     let(:orcid_profile_id) { '0001-0002' }
-    let(:config) { { token: token, path: 'somehwere', headers: 'headers' } }
+    let(:config) { { token: token, path: 'somehwere', headers: 'headers', response_builder: OpenStruct } }
     let(:response) { double("Response", body: response_body)} # See below
     let(:token) { double("Token") }
     let(:json_response) { [ OpenStruct.new({ 'id' => orcid_profile_id, 'label' => "Corwin Amber (#{email}) [ORCID: #{orcid_profile_id}]" }) ] }
