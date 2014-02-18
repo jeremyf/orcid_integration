@@ -73,7 +73,15 @@ describe 'non-UI based interactions' , requires_net_connect: true do
 
     visit("/inbox.jsp?to=#{email_prefix}")
     sleep(2) # Because mailinator might be slow
-    page.find('#mailcontainer a').click
+    begin
+      page.find('#mailcontainer a').click
+    rescue Capybara::ElementNotFound => e
+      filename = Rails.root.join('tmp/claim_orcid_failure.png')
+      page.save_screenshot(filename, full: true)
+      `open #{filename}`
+      raise e
+    end
+
     sleep(2) # Because mailinator might be slow
     href = page.all('.mailview a').collect { |a| a[:href] }.find {|href| href = /\/claim\//}
 
