@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 module Orcid
-  describe AppendNewWorkService do
+  describe RemoteWorkService do
     let(:payload) { %(<?xml version="1.0" encoding="UTF-8"?>) }
     let(:token) { double("Token") }
     let(:config) { {token: token, headers: request_headers } }

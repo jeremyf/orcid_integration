@@ -1,5 +1,5 @@
 module Orcid
-  class AppendNewWorkService
+  class RemoteWorkService
     def self.call(orcid_profile_id, body, request_method, config = {})
       new(orcid_profile_id, body, request_method, config).call
     end

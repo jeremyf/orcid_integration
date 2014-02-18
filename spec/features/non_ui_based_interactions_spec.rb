@@ -53,8 +53,8 @@ describe 'non-UI based interactions' , requires_net_connect: true do
 
     subject { Orcid::Profile.new(orcid_profile_id) }
     it 'should increment orcid works' do
-      replacement_work = Orcid::Work.new(title: "Test Driven Orcid Integration", work_type: 'test') }
-      appended_work = Orcid::Work.new(title: "Another Test Drive", work_type: 'test') }
+      replacement_work = Orcid::Work.new(title: "Test Driven Orcid Integration", work_type: 'test')
+      appended_work = Orcid::Work.new(title: "Another Test Drive", work_type: 'test')
 
       expect(subject.replace_works_with(replacement_work)).to eq(true)
 

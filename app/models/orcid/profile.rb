@@ -6,7 +6,7 @@ module Orcid
     def initialize(orcid_profile_id, config = {})
       @orcid_profile_id = orcid_profile_id
       @mapper = config.fetch(:mapper) { ::Mappy }
-      @remote_service = config.fetch(:remote_service) { Orcid::AppendNewWorkService }
+      @remote_service = config.fetch(:remote_service) { Orcid::RemoteWorkService }
       @xml_renderer = config.fetch(:xml_renderer) { Orcid::Work::XmlRenderer }
     end
 
