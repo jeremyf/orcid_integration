@@ -11,7 +11,7 @@ module Orcid
     def append_new_work(work, options = {})
       remote_service = options.fetch(:remote_service) { Orcid::AppendNewWorkService }
       orcid_work = normalize_work(work)
-      remote_service.call(orcid_profile_id, orcid_work.to_xml)
+      remote_service.call(orcid_profile_id, orcid_work.to_xml, :post)
     end
 
     protected
