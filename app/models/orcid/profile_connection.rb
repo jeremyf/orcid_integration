@@ -38,5 +38,3 @@ module Orcid
     end
   end
 end
-
-

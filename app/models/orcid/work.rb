@@ -17,17 +17,29 @@ module Orcid
     validates :work_type, presence: true, inclusion: { in: VALID_WORK_TYPES }
 
     def to_xml
-      ERB.new(template).result(binding)
+      XmlRenderer.call(self)
     end
 
-    # Necessary for exposing a "container object" to the ERB template.
-    def work
-      self
-    end
+    class XmlRenderer
+      def self.call(works, options = {})
+        new(works, options).call
+      end
 
-    private
-    def template
-      @template ||= File.read(Rails.root.join('app/templates/orcid/work.template.v1.1.xml.erb'))
+      attr_reader :works, :template
+      def initialize(works, options = {})
+        self.works = works
+        @template = options.fetch(:template_path) { File.read(Rails.root.join('app/templates/orcid/work.template.v1.1.xml.erb')) }
+      end
+
+      def call
+        ERB.new(template).result(binding)
+      end
+
+      protected
+      def works=(thing)
+        @works = Array(thing)
+      end
+
     end
   end
 end

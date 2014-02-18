@@ -15,7 +15,7 @@ module Orcid
           with(:post, "v1.1/#{orcid_profile_id}/orcid-works/", body: payload, headers: request_headers).
           and_return(response)
 
-        expect(described_class.call(orcid_profile_id, payload, config)).to eq(true)
+        expect(described_class.call(orcid_profile_id, payload, :post, config)).to eq(true)
       end
     end
 
