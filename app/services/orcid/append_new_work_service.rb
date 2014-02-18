@@ -12,15 +12,18 @@ module Orcid
       @headers = config.fetch(:headers) { default_headers }
     end
 
-    def call
-      response = deliver(orcid_profile_id, body)
+    # :post will append works to the Orcid Profile
+    # :put will replace the existing Orcid Profile works with the payload
+    # http://support.orcid.org/knowledgebase/articles/177528-add-works-technical-developer
+    def call(request_method = :post)
+      response = deliver(request_method, orcid_profile_id, body)
       parse(response)
     end
 
     protected
-    def deliver(orcid_profile_id, body)
+    def deliver(request_method, orcid_profile_id, body)
       path = "v1.1/#{orcid_profile_id}/orcid-works/"
-      token.post(path, body: body, headers: headers)
+      token.request(request_method, path, body: body, headers: headers)
     end
 
     def parse(response)

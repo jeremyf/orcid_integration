@@ -11,8 +11,8 @@ module Orcid
 
     context '.call' do
       it 'instantiates and calls underlying instance' do
-        token.should_receive(:post).
-          with("v1.1/#{orcid_profile_id}/orcid-works/", body: payload, headers: request_headers).
+        token.should_receive(:request).
+          with(:post, "v1.1/#{orcid_profile_id}/orcid-works/", body: payload, headers: request_headers).
           and_return(response)
 
         expect(described_class.call(orcid_profile_id, payload, config)).to eq(true)
