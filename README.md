@@ -14,8 +14,8 @@
 * Handle pushing Orcid Work to an unclaimed Orcid profile
 * Handle pushing Orcid Work to a claimed Orcid profile that has not authenticated.
 * Update Orcid Work XML template
-* Verify pushing an Orcid Work with the same name but different attributes.
-* Verify pushing an Orcid Work with the same name but different work types.
+* ~~Verify pushing an Orcid Work with the same name but different attributes.~~
+* ~~Verify pushing an Orcid Work with the same name but different work types.~~
 
 ## You'll Need a (Self Signed) Certificate
 
