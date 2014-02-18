@@ -7,4 +7,4 @@ OrcidIntegration::Application.load_tasks
 
 Rake::Task["default"].clear
 
-task :default => 'spec:offline'
+task :default => ['db:test:prepare', 'spec:offline']
