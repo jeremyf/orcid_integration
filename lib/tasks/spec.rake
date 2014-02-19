@@ -11,6 +11,7 @@ namespace :spec do
     t.rspec_opts = "--tag requires_net_connect"
   end
 
+  desc 'Run the Travis CI specs'
   task :travis do
     ENV['RAILS_ENV'] = 'travis'
     ENV['SPEC_OPTS'] = "--profile 20"
