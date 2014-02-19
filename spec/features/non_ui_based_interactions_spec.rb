@@ -2,9 +2,13 @@ require 'spec_helper'
 
 describe 'non-UI based interactions' , requires_net_connect: true do
   around(:each) do |example|
+    Mappy.configure {|b|}
+    Mappy.finalize!
     WebMock.allow_net_connect!
+
     example.run
     WebMock.disable_net_connect!
+    Mappy.reset!
   end
   let(:work) { Orcid::Work.new(title: "Test Driven Orcid Integration", work_type: 'test') }
   let(:user) { FactoryGirl.create(:user) }

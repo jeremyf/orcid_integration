@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/jeremyf/mappy.git
-  revision: e8f0fe832fcb002f35d6a3a076c7143261bedf35
+  revision: 135fff8acac435e52d61b1401825c819d8af9f47
   specs:
-    mappy (0.0.2)
+    mappy (0.0.5)
       activesupport
 
 GEM

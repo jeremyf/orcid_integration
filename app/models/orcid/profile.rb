@@ -36,11 +36,7 @@ module Orcid
     # Note: We can handle
     def normalize_work(*works)
       Array(works).flatten.compact.collect do |work|
-        if work.is_a?(Orcid::Work)
-          work
-        else
-          mapper.map(work, target: 'orcid/work')
-        end
+        mapper.map(work, target: 'orcid/work')
       end
     end
 
