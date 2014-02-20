@@ -21,15 +21,26 @@ module Orcid
         let(:profile_request_id) { '1234' }
         let(:profile_request) { FactoryGirl.build_stubbed(:orcid_profile_request, user: user)}
 
-        it 'should render a profile request form' do
+        it 'should render the existing profile request' do
           Orcid::ProfileRequest.should_receive(:find_by_user).
-            with(user).
-            and_return(profile_request)
+            with(user).and_return(profile_request)
 
           get :show
+
           expect(response).to be_success
           expect(assigns(:profile_request)).to eq(profile_request)
           expect(response).to render_template('show')
+        end
+
+        it 'should redirect to the profile request form if none is found' do
+          Orcid::ProfileRequest.should_receive(:find_by_user).
+            with(user).and_return(nil)
+
+          get :show
+
+          expect(response).to be_redirect
+          expect(flash[:warning]).to eq(I18n.t("orcid.requests.messages.existing_request_not_found"))
+          expect(response).to redirect_to(new_orcid_profile_request_path)
         end
       end
     end
@@ -51,7 +62,7 @@ module Orcid
         it 'should guard against duplicate requests' do
           Orcid::ProfileRequest.should_receive(:find_by_user).with(user).and_return(Orcid::ProfileRequest.new)
           get :new
-          expect(flash[:warning]).to eq(I18n.t("orcid.errors.messages.existing_request"))
+          expect(flash[:warning]).to eq(I18n.t("orcid.requests.messages.existing_request"))
           expect(response).to redirect_to(orcid_profile_request_path)
         end
       end
@@ -73,7 +84,7 @@ module Orcid
         it 'should guard against duplicate requests' do
           Orcid::ProfileRequest.should_receive(:find_by_user).with(user).and_return(Orcid::ProfileRequest.new)
           post :create, profile_request: profile_request_attributes
-          expect(flash[:warning]).to eq(I18n.t("orcid.errors.messages.existing_request"))
+          expect(flash[:warning]).to eq(I18n.t("orcid.requests.messages.existing_request"))
           expect(response).to redirect_to(orcid_profile_request_path)
         end
 
