@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
     :recoverable, :rememberable, :trackable, :validatable,
     :omniauthable, :omniauth_providers => [:github, :orcid]
 
-  has_many :authentications, dependent: :destroy
+  has_many :authentications, dependent: :destroy, class_name: 'Devise::MultiAuth::Authentication'
 
   def self.find_by_provider_and_uid(provider, uid)
     includes(:authentications).

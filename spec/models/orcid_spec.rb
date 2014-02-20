@@ -43,7 +43,7 @@ describe Orcid do
     it 'changes the authentication count' do
       expect {
         Orcid.connect_user_and_orcid_profile(user, orcid_profile_id)
-      }.to change(Authentication.where(provider: 'orcid', user_id: user.id), :count).by(1)
+      }.to change(Orcid::Authentication.where(provider: 'orcid', user_id: user.id), :count).by(1)
     end
   end
 

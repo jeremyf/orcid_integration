@@ -1,6 +1,7 @@
 require 'orcid/configuration'
 
 module Orcid
+  Authentication = Devise::MultiAuth::Authentication
   class << self
     attr_accessor :configuration
   end
