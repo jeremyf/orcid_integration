@@ -9,10 +9,6 @@ module Orcid
       where(user: user).first!
     end
 
-    def self.find_by_user_and_id(user, id)
-      where(user: user).find(id)
-    end
-
     self.table_name = :orcid_profile_requests
 
     validates :user_id, presence: true, uniqueness: true
