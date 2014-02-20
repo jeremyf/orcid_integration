@@ -5,9 +5,10 @@ if ENV['COVERAGE']
   SimpleCov.start 'rails'
   SimpleCov.command_name "spec"
 end
-require File.expand_path("../../config/environment", __FILE__)
+
+# Cheating a bit and using container application
+require File.expand_path("../../../config/environment", __FILE__)
 require 'rspec/rails'
-require 'email_spec'
 require 'rspec/autorun'
 require 'webmock/rspec'
 
@@ -30,8 +31,6 @@ module ControllerHelpers
 end
 
 RSpec.configure do |config|
-  config.include(EmailSpec::Helpers)
-  config.include(EmailSpec::Matchers)
   config.include ControllerHelpers, type: :controller
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
