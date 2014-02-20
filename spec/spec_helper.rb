@@ -57,7 +57,6 @@ RSpec.configure do |config|
     DatabaseCleaner.strategy = :truncation
   end
   config.before(:each) do
-    Orcid.reset_cache!
     OmniAuth.config.test_mode = true
     DatabaseCleaner.start
   end

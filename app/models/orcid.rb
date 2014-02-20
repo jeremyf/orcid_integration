@@ -41,12 +41,4 @@ module Orcid
     tokenizer.get_token(scope: scope)
   end
 
-  def cache
-    @cache ||= {}
-  end
-
-  def reset_cache!
-    @cache = {}
-  end
-
 end
