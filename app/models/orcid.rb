@@ -20,7 +20,12 @@ module Orcid
       to_access_token(client: oauth_client)
   end
 
-  def profile_for(object)
+  def profile_for(user)
+    if authentication = Authentication.where(provider: 'orcid', user: user).first
+      Orcid::Profile.new(authentication.uid)
+    else
+      nil
+    end
   end
 
   def enqueue(object)

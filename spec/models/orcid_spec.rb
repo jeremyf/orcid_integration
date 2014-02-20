@@ -12,6 +12,19 @@ describe Orcid do
     end
   end
 
+  context '.profile_for' do
+    let(:user) { FactoryGirl.build_stubbed(:user) }
+    let(:orcid_profile_id) { '0001-0002-0003-0004' }
+    it 'should return nil if none is found' do
+      expect(Orcid.profile_for(user)).to eq(nil)
+    end
+
+    it 'should return an Orcid::Profile if the user has an orcid authentication' do
+      Orcid.connect_user_and_orcid_profile(user,orcid_profile_id)
+      expect(Orcid.profile_for(user).orcid_profile_id).to eq(orcid_profile_id)
+    end
+  end
+
   context '.client_credentials_token' do
     let(:tokenizer) { double('Tokenizer') }
     let(:scope) { '/my-scope' }
