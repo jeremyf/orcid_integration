@@ -7,7 +7,7 @@ module Orcid
     helper_method :profile_request
 
     def show
-      return false if redirect_because_no_profile_request_was_found
+      return false if redirecting_because_no_profile_request_was_found
       respond_with(existing_profile_request)
     end
 
@@ -26,7 +26,7 @@ module Orcid
 
     protected
 
-    def redirect_because_no_profile_request_was_found
+    def redirecting_because_no_profile_request_was_found
       return false if existing_profile_request
       flash[:warning] = I18n.t("orcid.requests.messages.existing_request_not_found")
       redirect_to action: 'new'
