@@ -3,6 +3,18 @@ module Devise::MultiAuth
     belongs_to :user
     self.table_name = 'authentications'
 
+    def self.find_user_by_provider_and_uid(provider, uid)
+      if auth = find_by_provider_and_uid(provider, uid)
+        auth.user
+      else
+        nil
+      end
+    end
+
+    def self.find_by_provider_and_uid(provider, uid)
+      where(provider: provider, uid: uid).includes(:user).first
+    end
+
     def to_access_token(config = {})
       client = config.fetch(:client) { Orcid.oauth_client }
       tokenizer = config.fetch(:tokenizer) { OAuth2::AccessToken.method(:new) }
