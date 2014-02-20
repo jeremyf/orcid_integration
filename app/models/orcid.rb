@@ -1,7 +1,7 @@
 require 'orcid/configuration'
 
 module Orcid
-  Authentication = Devise::MultiAuth::Authentication
+
   class << self
     attr_accessor :configuration
   end
@@ -13,20 +13,24 @@ module Orcid
   end
 
   def connect_user_and_orcid_profile(user, orcid_profile_id, options = {})
-    Authentication.create!(provider: 'orcid', uid: orcid_profile_id, user: user)
+    authentication.create!(provider: 'orcid', uid: orcid_profile_id, user: user)
   end
 
   def access_token_for(orcid_profile_id, options = {})
-    Authentication.where(uid: orcid_profile_id, provider: 'orcid').first.
+    authentication.where(uid: orcid_profile_id, provider: 'orcid').first.
       to_access_token(client: oauth_client)
   end
 
   def profile_for(user)
-    if authentication = Authentication.where(provider: 'orcid', user: user).first
+    if authentication = authentication.where(provider: 'orcid', user: user).first
       Orcid::Profile.new(authentication.uid)
     else
       nil
     end
+  end
+
+  def authentication
+    Devise::MultiAuth::Authentication
   end
 
   def enqueue(object)
