@@ -1,6 +1,14 @@
 require 'spec_helper'
 
 describe Orcid do
+  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:orcid_profile_id) { '0001-0002-0003-0004' }
+
+  context '.authentication' do
+    subject { Orcid.authentication }
+    it { should respond_to :to_access_token }
+  end
+
   context '.oauth_client' do
     subject { Orcid.oauth_client }
     its(:client_credentials) { should respond_to :get_token }
@@ -13,8 +21,6 @@ describe Orcid do
   end
 
   context '.profile_for' do
-    let(:user) { FactoryGirl.build_stubbed(:user) }
-    let(:orcid_profile_id) { '0001-0002-0003-0004' }
     it 'should return nil if none is found' do
       expect(Orcid.profile_for(user)).to eq(nil)
     end
@@ -37,13 +43,22 @@ describe Orcid do
   end
 
   context '.connect_user_and_orcid_profile' do
-    let(:user) { FactoryGirl.build_stubbed(:user) }
-    let(:orcid_profile_id) { '0100-0012' }
 
     it 'changes the authentication count' do
       expect {
         Orcid.connect_user_and_orcid_profile(user, orcid_profile_id)
-      }.to change(Orcid::Authentication.where(provider: 'orcid', user_id: user.id), :count).by(1)
+      }.to change(Orcid.authentication.where(provider: 'orcid', user_id: user.id), :count).by(1)
+    end
+  end
+
+  context '.access_token_for' do
+    let(:client) { double("Client")}
+    let(:token) { double('Token') }
+    let(:tokenizer) { double("Tokenizer") }
+
+    it 'delegates to .authentication' do
+      tokenizer.should_receive(:to_access_token).with(provider: 'orcid', uid: orcid_profile_id, client: client).and_return(token)
+      expect(Orcid.access_token_for(orcid_profile_id, client: client, tokenizer: tokenizer)).to eq(token)
     end
   end
 

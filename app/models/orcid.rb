@@ -17,13 +17,14 @@ module Orcid
   end
 
   def access_token_for(orcid_profile_id, options = {})
-    authentication.where(uid: orcid_profile_id, provider: 'orcid').first.
-      to_access_token(client: oauth_client)
+    client = options.fetch(:client) { oauth_client }
+    tokenizer = options.fetch(:tokenizer) { authentication }
+    tokenizer.to_access_token(uid: orcid_profile_id, provider: 'orcid', client: client)
   end
 
   def profile_for(user)
-    if authentication = authentication.where(provider: 'orcid', user: user).first
-      Orcid::Profile.new(authentication.uid)
+    if auth = authentication.where(provider: 'orcid', user: user).first
+      Orcid::Profile.new(auth.uid)
     else
       nil
     end
@@ -42,7 +43,7 @@ module Orcid
   end
 
   def client_credentials_token(scope, options = {})
-    tokenizer = options.fetch(:tokenizer) { Orcid.oauth_client.client_credentials }
+    tokenizer = options.fetch(:tokenizer) { oauth_client.client_credentials }
     tokenizer.get_token(scope: scope)
   end
 

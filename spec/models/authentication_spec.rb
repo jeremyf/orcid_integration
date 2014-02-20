@@ -15,6 +15,18 @@ module Devise::MultiAuth
       }
     }
 
+    context '.to_access_token' do
+      let(:client) { double('Client') }
+      before(:each) do
+        described_class.create!(attributes)
+      end
+      subject { described_class.to_access_token(uid: uid, provider: provider, client: client) }
+      it { should respond_to :get }
+      it { should respond_to :post }
+      it { should respond_to :refresh! }
+      it { should respond_to :expires? }
+    end
+
     context '#to_access_token' do
       let(:client) { double('Client') }
       subject { described_class.new(attributes).to_access_token(client: client) }

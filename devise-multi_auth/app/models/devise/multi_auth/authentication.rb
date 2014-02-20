@@ -3,6 +3,13 @@ module Devise::MultiAuth
     belongs_to :user
     self.table_name = 'authentications'
 
+    def self.to_access_token(options)
+      uid = options.fetch(:uid)
+      client = options.fetch(:client)
+      provider = options.fetch(:provider)
+      where(provider: provider, uid: uid).first!.to_access_token(client: client)
+    end
+
     def self.find_user_by_provider_and_uid(provider, uid)
       if auth = find_by_provider_and_uid(provider, uid)
         auth.user
