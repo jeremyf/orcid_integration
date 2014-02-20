@@ -13,7 +13,7 @@ module Devise::MultiAuth
     context 'GET provider (as callback)' do
       context 'without a registered user' do
         before(:each) do
-          User.should_receive(:find_by_provider_and_uid).with(provider.to_s, uid).and_return(nil)
+          Authentication.should_receive(:find_user_by_provider_and_uid).with(provider.to_s, uid).and_return(nil)
         end
         it 'should redirect to signup' do
           get provider
@@ -23,7 +23,7 @@ module Devise::MultiAuth
 
       context 'with a registered user' do
         before(:each) do
-          User.should_receive(:find_by_provider_and_uid).with(provider.to_s, uid).and_return(user)
+          Authentication.should_receive(:find_user_by_provider_and_uid).with(provider.to_s, uid).and_return(user)
         end
         # Adding an ID because this request is hitting the database.
         # Trying to figure out why.
