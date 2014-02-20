@@ -14,16 +14,16 @@ module Orcid
     }
     subject { described_class.new(attributes) }
 
-    context '#find_by_user_and_id' do
+    context '#find_by_user' do
       let!(:profile_request) { FactoryGirl.create(:orcid_profile_request) }
       it 'returns the profile request' do
-        expect(described_class.find_by_user_and_id(profile_request.user, profile_request.to_param)).to eq(profile_request)
+        expect(described_class.find_by_user(profile_request.user)).to eq(profile_request)
       end
 
       it 'raises an exception if not found' do
         other_user = FactoryGirl.build_stubbed(:user)
         expect {
-          described_class.find_by_user_and_id(other_user, profile_request.to_param)
+          described_class.find_by_user(other_user)
         }.to raise_error
       end
 

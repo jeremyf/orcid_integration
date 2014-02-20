@@ -23,7 +23,7 @@ module Orcid
 
     protected
     def existing_profile_request
-      @profile_request ||= Orcid::ProfileRequest.find_by_user_and_id(current_user, params[:id])
+      @profile_request ||= Orcid::ProfileRequest.find_by_user(current_user)
     end
 
     def new_profile_request

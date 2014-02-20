@@ -22,11 +22,11 @@ module Orcid
         let(:profile_request) { FactoryGirl.build_stubbed(:orcid_profile_request, user: user)}
 
         it 'should render a profile request form' do
-          Orcid::ProfileRequest.should_receive(:find_by_user_and_id).
-            with(user, profile_request_id).
+          Orcid::ProfileRequest.should_receive(:find_by_user).
+            with(user).
             and_return(profile_request)
 
-          get :show, id: profile_request_id
+          get :show
           expect(response).to be_success
           expect(assigns(:profile_request)).to eq(profile_request)
           expect(response).to render_template('show')
