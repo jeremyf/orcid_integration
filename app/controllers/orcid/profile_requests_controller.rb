@@ -11,17 +11,27 @@ module Orcid
     end
 
     def new
+      return false if redirecting_because_user_has_existing_profile_request
       assign_attributes(new_profile_request)
       respond_with(new_profile_request)
     end
 
     def create
+      return false if redirecting_because_user_has_existing_profile_request
       assign_attributes(new_profile_request)
       create_profile_request(new_profile_request)
       respond_with(new_profile_request)
     end
 
     protected
+
+    def redirecting_because_user_has_existing_profile_request
+      return false if ! existing_profile_request
+      flash[:warning] = I18n.t("orcid.errors.messages.existing_request")
+      redirect_to action: 'show'
+      true
+    end
+
     def existing_profile_request
       @profile_request ||= Orcid::ProfileRequest.find_by_user(current_user)
     end

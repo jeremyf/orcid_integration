@@ -6,7 +6,7 @@ module Orcid
   class ProfileRequest < ActiveRecord::Base
 
     def self.find_by_user(user)
-      where(user: user).first!
+      where(user: user).first
     end
 
     self.table_name = :orcid_profile_requests

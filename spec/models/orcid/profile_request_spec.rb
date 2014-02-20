@@ -20,11 +20,9 @@ module Orcid
         expect(described_class.find_by_user(profile_request.user)).to eq(profile_request)
       end
 
-      it 'raises an exception if not found' do
+      it 'to return nil' do
         other_user = FactoryGirl.build_stubbed(:user)
-        expect {
-          described_class.find_by_user(other_user)
-        }.to raise_error
+        expect(described_class.find_by_user(other_user)).to be_nil
       end
 
     end

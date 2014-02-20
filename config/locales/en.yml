@@ -20,4 +20,7 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  orcid:
+    errors:
+      messages:
+        existing_request: "You have already submitted an Orcid Profile request"

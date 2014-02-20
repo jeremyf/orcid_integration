@@ -41,10 +41,18 @@ module Orcid
         before { sign_in(user) }
 
         it 'should render a profile request form' do
+          Orcid::ProfileRequest.should_receive(:find_by_user).with(user).and_return(nil)
           get :new
           expect(response).to be_success
           expect(assigns(:profile_request).user).to eq(user)
           expect(response).to render_template('new')
+        end
+
+        it 'should guard against duplicate requests' do
+          Orcid::ProfileRequest.should_receive(:find_by_user).with(user).and_return(Orcid::ProfileRequest.new)
+          get :new
+          expect(flash[:warning]).to eq(I18n.t("orcid.errors.messages.existing_request"))
+          expect(response).to redirect_to(orcid_profile_request_path)
         end
       end
     end
@@ -55,11 +63,20 @@ module Orcid
         before { sign_in(user) }
 
         it 'should render a profile request form' do
+          Orcid::ProfileRequest.should_receive(:find_by_user).with(user).and_return(nil)
           Orcid.should_receive(:enqueue).with(an_instance_of(Orcid::ProfileRequest))
 
           post :create, profile_request: profile_request_attributes
           expect(response).to be_redirect
         end
+
+        it 'should guard against duplicate requests' do
+          Orcid::ProfileRequest.should_receive(:find_by_user).with(user).and_return(Orcid::ProfileRequest.new)
+          post :create, profile_request: profile_request_attributes
+          expect(flash[:warning]).to eq(I18n.t("orcid.errors.messages.existing_request"))
+          expect(response).to redirect_to(orcid_profile_request_path)
+        end
+
       end
     end
   end
