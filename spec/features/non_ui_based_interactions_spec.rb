@@ -76,7 +76,7 @@ describe 'non-UI based interactions' , requires_net_connect: true do
     code = RequestSandboxAuthorizationCode.call(orcid_profile_id: orcid_profile_id, password: orcid_profile_password)
     token = Orcid.oauth_client.auth_code.get_token(code)
     normalized_token = {provider: 'orcid', uid: orcid_profile_id, credentials: {token: token.token, refresh_token: token.refresh_token }}
-    CaptureSuccessfulExternalAuthentication.call(user, normalized_token)
+    Devise::MultiAuth::CaptureSuccessfulExternalAuthentication.call(user, normalized_token)
   end
 
   # Achtung, this is going to be fragile
