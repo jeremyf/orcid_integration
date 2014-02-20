@@ -5,7 +5,7 @@ describe 'omniauth routes' do
     it "routes authorize for #{provider.inspect}" do
       expect(get: "users/auth/#{provider}").to(
         route_to(
-          controller: 'authentications',
+          controller: 'devise/multi_auth/authentications',
           action: 'passthru',
           provider: provider.to_s
         )
@@ -15,7 +15,7 @@ describe 'omniauth routes' do
     it "routes to #{provider.inspect} for callback" do
       expect(get: "users/auth/#{provider}/callback").to(
         route_to(
-          controller: 'authentications',
+          controller: 'devise/multi_auth/authentications',
           action: provider.to_s,
         )
       )
