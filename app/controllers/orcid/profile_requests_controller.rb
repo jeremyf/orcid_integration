@@ -1,5 +1,5 @@
 module Orcid
-  class ProfileRequestsController < ApplicationController
+  class ProfileRequestsController < Orcid::ApplicationController
     respond_to :html
     before_filter :authenticate_user!
 
@@ -28,16 +28,6 @@ module Orcid
     end
 
     protected
-
-    def redirecting_because_user_already_has_a_connected_orcid_profile
-      if orcid_profile = Orcid.profile_for(current_user)
-        flash[:notice] = I18n.t("orcid.requests.messages.previously_connected_profile", orcid_profile_id: orcid_profile.orcid_profile_id)
-        redirect_to root_path
-        return true
-      else
-        return false
-      end
-    end
 
     def redirecting_because_no_profile_request_was_found
       return false if existing_profile_request
