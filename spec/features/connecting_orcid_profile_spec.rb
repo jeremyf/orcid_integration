@@ -94,6 +94,6 @@ describe 'connecting orcid profile' do
   end
 
   def expect_user_to_have_orcid_profile
-    expect(user.authentications.where(provider: 'orcid').count).to eq(1)
+    expect(Orcid.profile_for(user)).to be_an_instance_of(Orcid::Profile)
   end
 end
