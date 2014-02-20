@@ -7,17 +7,20 @@ module Orcid
     helper_method :profile_request
 
     def show
+      return false if redirecting_because_user_already_has_a_connected_orcid_profile
       return false if redirecting_because_no_profile_request_was_found
       respond_with(existing_profile_request)
     end
 
     def new
+      return false if redirecting_because_user_already_has_a_connected_orcid_profile
       return false if redirecting_because_user_has_existing_profile_request
       assign_attributes(new_profile_request)
       respond_with(new_profile_request)
     end
 
     def create
+      return false if redirecting_because_user_already_has_a_connected_orcid_profile
       return false if redirecting_because_user_has_existing_profile_request
       assign_attributes(new_profile_request)
       create_profile_request(new_profile_request)
@@ -26,16 +29,26 @@ module Orcid
 
     protected
 
+    def redirecting_because_user_already_has_a_connected_orcid_profile
+      if orcid_profile = Orcid.profile_for(current_user)
+        flash[:notice] = I18n.t("orcid.requests.messages.previously_connected_profile", orcid_profile_id: orcid_profile.orcid_profile_id)
+        redirect_to root_path
+        return true
+      else
+        return false
+      end
+    end
+
     def redirecting_because_no_profile_request_was_found
       return false if existing_profile_request
-      flash[:warning] = I18n.t("orcid.requests.messages.existing_request_not_found")
+      flash[:notice] = I18n.t("orcid.requests.messages.existing_request_not_found")
       redirect_to action: 'new'
       true
     end
 
     def redirecting_because_user_has_existing_profile_request
       return false if ! existing_profile_request
-      flash[:warning] = I18n.t("orcid.requests.messages.existing_request")
+      flash[:notice] = I18n.t("orcid.requests.messages.existing_request")
       redirect_to action: 'show'
       true
     end
