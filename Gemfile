@@ -22,7 +22,7 @@ gem 'email_validator'
 gem 'rails_layout'
 gem 'qa'
 gem 'virtus'
-gem 'mappy', github: 'jeremyf/mappy'
+gem 'mappy', '~> 0.1.0'
 
 group :debug do
   gem 'better_errors'
