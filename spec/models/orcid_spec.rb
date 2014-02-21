@@ -8,7 +8,8 @@ describe Orcid do
     subject { Orcid.authentication_model }
     it { should respond_to :to_access_token }
     it { should respond_to :create! }
-    it { should respond_to :create! }
+    it { should respond_to :count }
+    it { should respond_to :where }
   end
 
   context '.oauth_client' do
