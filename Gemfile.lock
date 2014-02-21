@@ -82,7 +82,7 @@ GEM
       railties (>= 3.2.6, < 5)
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
-    devise-multi_auth (0.0.1)
+    devise-multi_auth (0.0.2)
       devise (~> 3.2.2)
       omniauth (~> 1.2.1)
       rails (~> 4.0.3)
@@ -315,7 +315,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   database_cleaner (= 1.0.1)
   devise
-  devise-multi_auth (~> 0.0.1)
+  devise-multi_auth (~> 0.0.2)
   email_spec
   email_validator
   factory_girl_rails
