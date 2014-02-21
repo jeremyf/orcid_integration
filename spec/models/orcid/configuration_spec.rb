@@ -6,6 +6,8 @@ module Orcid
 
     subject { described_class.new }
 
+    its(:provider_name) { should eq 'orcid'}
+
     context 'custom storage' do
       subject { described_class.new(storage) }
       its(:app_id) { should eq storage['ORCID_APP_ID'] }
