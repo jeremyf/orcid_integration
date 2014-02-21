@@ -58,6 +58,12 @@ module Orcid
     let(:work_2) { Orcid::Work.new(title: 'Test Driven Orcid Integration', work_type: 'test', put_code: '303474')}
     subject { described_class.new(xml) }
 
+    context '.call' do
+      it 'should return an array of Orcid::Work' do
+        expect(described_class.call(xml)).to eq([work_1, work_2])
+      end
+    end
+
     context '#call' do
       it 'should return an array of Orcid::Work' do
         returned = subject.call

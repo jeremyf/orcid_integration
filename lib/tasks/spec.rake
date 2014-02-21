@@ -20,5 +20,4 @@ namespace :spec do
     Rake::Task['db:schema:load'].invoke
     Rake::Task['spec:offline'].invoke
   end
-
 end

@@ -11,9 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140205185338) do
+ActiveRecord::Schema.define(version: 20140221002837) do
 
-  create_table "authentications", force: true do |t|
+  create_table "devise_multi_auth_authentications", force: true do |t|
     t.integer  "user_id",       null: false
     t.string   "provider",      null: false
     t.string   "uid",           null: false
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20140205185338) do
     t.datetime "updated_at"
   end
 
-  add_index "authentications", ["provider", "uid"], name: "index_authentications_on_provider_and_uid", unique: true
+  add_index "devise_multi_auth_authentications", ["provider", "uid"], name: "index_devise_multi_auth_authentications_on_provider_and_uid", unique: true
 
   create_table "orcid_profile_requests", force: true do |t|
     t.integer  "user_id",          null: false

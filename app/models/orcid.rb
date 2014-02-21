@@ -1,6 +1,7 @@
 require 'orcid/configuration'
 
 module Orcid
+
   class << self
     attr_accessor :configuration
   end
@@ -11,18 +12,28 @@ module Orcid
     yield(configuration)
   end
 
+  def provider_name
+    configuration.provider_name
+  end
+
+  def authentication_model
+    configuration.authentication_model
+  end
+
+
   def connect_user_and_orcid_profile(user, orcid_profile_id, options = {})
-    Authentication.create!(provider: 'orcid', uid: orcid_profile_id, user: user)
+    authentication_model.create!(provider: provider_name, uid: orcid_profile_id, user: user)
   end
 
   def access_token_for(orcid_profile_id, options = {})
-    Authentication.where(uid: orcid_profile_id, provider: 'orcid').first.
-      to_access_token(client: oauth_client)
+    client = options.fetch(:client) { oauth_client }
+    tokenizer = options.fetch(:tokenizer) { authentication_model }
+    tokenizer.to_access_token(uid: orcid_profile_id, provider: provider_name, client: client)
   end
 
   def profile_for(user)
-    if authentication = Authentication.where(provider: 'orcid', user: user).first
-      Orcid::Profile.new(authentication.uid)
+    if auth = authentication_model.where(provider: provider_name, user: user).first
+      Orcid::Profile.new(auth.uid)
     else
       nil
     end
@@ -33,11 +44,15 @@ module Orcid
   end
 
   def oauth_client
-    @oauth_client ||= OAuth2::Client.new(ENV['ORCID_APP_ID'], ENV['ORCID_APP_SECRET'], site: ENV['ORCID_SITE_URL'])
+    # passing the site: option as Orcid's Sandbox has an invalid certificate
+    # for the api.sandbox-1.orcid.org
+    @oauth_client ||= Devise::MultiAuth.oauth_client_for(
+      provider_name, options: { site: ENV['ORCID_SITE_URL']}
+    )
   end
 
   def client_credentials_token(scope, options = {})
-    tokenizer = options.fetch(:tokenizer) { Orcid.oauth_client.client_credentials }
+    tokenizer = options.fetch(:tokenizer) { oauth_client.client_credentials }
     tokenizer.get_token(scope: scope)
   end
 
