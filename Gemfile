@@ -23,7 +23,7 @@ gem 'rails_layout'
 gem 'qa'
 gem 'virtus'
 gem 'mappy', '~> 0.1.0'
-gem 'devise-multi_auth', github: 'jeremyf/devise-multi_auth'
+gem 'devise-multi_auth', '~> 0.0.3'
 
 group :debug do
   gem 'better_errors'
