@@ -18,7 +18,11 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", "~> 4.0.3"
   s.add_dependency 'mappy', '~> 0.1.0'
   s.add_dependency 'devise-multi_auth', '~> 0.0.3'
+  s.add_dependency 'omniauth-orcid'
 
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "engine_cart"
+  s.add_development_dependency "rspec-rails"
+  s.add_development_dependency "database_cleaner"
+  s.add_development_dependency "factory_girl"
 end
