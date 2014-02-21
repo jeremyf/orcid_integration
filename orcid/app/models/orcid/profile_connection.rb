@@ -34,7 +34,7 @@ module Orcid
     end
 
     def orcid_profile_querier
-      @orcid_profile_querier ||= Qa::Authorities::OrcidProfile
+      @orcid_profile_querier ||= ProfileLookupService
     end
   end
 end

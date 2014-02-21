@@ -25,8 +25,6 @@ GEM
       activesupport (= 4.0.3)
       arel (~> 4.0.0)
     activerecord-deprecated_finders (1.0.3)
-    activerecord-import (0.4.1)
-      activerecord (>= 3.0)
     activesupport (4.0.3)
       i18n (~> 0.6, >= 0.6.4)
       minitest (~> 4.2)
@@ -74,13 +72,10 @@ GEM
     columnize (0.3.6)
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
-    curb (0.8.5)
     daemons (1.1.9)
     database_cleaner (1.0.1)
     debug_inspector (0.0.2)
     debugger-linecache (1.2.0)
-    deprecation (0.0.5)
-      activesupport
     descendants_tracker (0.0.3)
     devise (3.2.2)
       bcrypt-ruby (~> 3.0)
@@ -193,13 +188,6 @@ GEM
       coderay (~> 1.0)
       method_source (~> 0.8)
       slop (~> 3.4)
-    qa (0.0.3)
-      activerecord-import (>= 0.4.0)
-      curb
-      deprecation
-      nokogiri (~> 1.6.0)
-      rails (~> 4.0.0)
-      rest-client
     quiet_assets (1.0.2)
       railties (>= 3.1, < 5.0)
     rack (1.5.2)
@@ -226,8 +214,6 @@ GEM
     rb-fsevent (0.9.4)
     rb-inotify (0.9.3)
       ffi (>= 0.5.0)
-    rest-client (1.6.7)
-      mime-types (>= 1.16)
     rest_client (1.7.2)
       netrc (~> 0.7.7)
     rspec (2.14.1)
@@ -336,7 +322,6 @@ DEPENDENCIES
   omniauth-github
   omniauth-orcid
   orcid!
-  qa
   quiet_assets
   rails (~> 4.0.3)
   rails_layout

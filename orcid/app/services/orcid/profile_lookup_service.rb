@@ -1,7 +1,5 @@
-require 'qa'
-
-module Qa::Authorities
-  class OrcidProfile
+module Orcid
+  class ProfileLookupService
     class SearchResponse
       delegate :fetch, :has_key?, :[], to: :@attributes
       def initialize(attributes = {})

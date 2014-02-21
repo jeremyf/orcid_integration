@@ -1,8 +1,8 @@
 require 'spec_helper'
 require 'ostruct'
 
-module Qa::Authorities
-  describe OrcidProfile do
+module Orcid
+  describe ProfileLookupService do
     let(:email) { 'corwin@amber.gov' }
     let(:orcid_profile_id) { '0001-0002' }
     let(:config) { { token: token, path: 'somehwere', headers: 'headers', response_builder: OpenStruct } }

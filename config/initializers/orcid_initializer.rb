@@ -1,5 +1,5 @@
 # require 'orcid'
-require 'qa/authorities/orcid_profile'
+# require 'qa/authorities/orcid_profile'
 
 Orcid.configure do |config|
 
