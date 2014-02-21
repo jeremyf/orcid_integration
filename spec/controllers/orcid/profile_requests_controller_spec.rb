@@ -2,11 +2,11 @@ require 'spec_helper'
 
 module Orcid
   describe ProfileRequestsController do
-    def self.it_prompts_unauthenticated_users_for_signin(method, action, parameters = {})
+    def self.it_prompts_unauthenticated_users_for_signin(method, action)
       context 'unauthenticated user' do
         it "should redirect for sign in" do
-          send(method, action, parameters)
-          expect(response).to redirect_to(new_user_session_path)
+          send(method, action, use_route: :orcid)
+          expect(response).to redirect_to(main_app.new_user_session_path)
         end
       end
     end
@@ -18,9 +18,9 @@ module Orcid
           orcid_profile = double("Orcid::Profile", orcid_profile_id: '1234-5678-0001-0002')
           Orcid.should_receive(:profile_for).with(user).and_return(orcid_profile)
 
-          send(method, action)
+          send(method, action, use_route: :orcid)
 
-          expect(response).to redirect_to(root_path)
+          expect(response).to redirect_to(main_app.root_path)
           expect(flash[:notice]).to eq(
             I18n.t("orcid.requests.messages.previously_connected_profile", orcid_profile_id: orcid_profile.orcid_profile_id)
           )
@@ -45,7 +45,7 @@ module Orcid
           Orcid::ProfileRequest.should_receive(:find_by_user).
             with(user).and_return(profile_request)
 
-          get :show
+          get :show, use_route: :orcid
 
           expect(response).to be_success
           expect(assigns(:profile_request)).to eq(profile_request)
@@ -56,10 +56,10 @@ module Orcid
           Orcid::ProfileRequest.should_receive(:find_by_user).
             with(user).and_return(nil)
 
-          get :show
+          get :show, use_route: :orcid
 
           expect(flash[:notice]).to eq(I18n.t("orcid.requests.messages.existing_request_not_found"))
-          expect(response).to redirect_to(new_orcid_profile_request_path)
+          expect(response).to redirect_to(orcid.new_profile_request_path)
         end
       end
     end
@@ -73,7 +73,7 @@ module Orcid
 
         it 'should render a profile request form' do
           Orcid::ProfileRequest.should_receive(:find_by_user).with(user).and_return(nil)
-          get :new
+          get :new, use_route: :orcid
           expect(response).to be_success
           expect(assigns(:profile_request).user).to eq(user)
           expect(response).to render_template('new')
@@ -81,9 +81,9 @@ module Orcid
 
         it 'should guard against duplicate requests' do
           Orcid::ProfileRequest.should_receive(:find_by_user).with(user).and_return(Orcid::ProfileRequest.new)
-          get :new
+          get :new, use_route: :orcid
           expect(flash[:notice]).to eq(I18n.t("orcid.requests.messages.existing_request"))
-          expect(response).to redirect_to(orcid_profile_request_path)
+          expect(response).to redirect_to(orcid.profile_request_path)
         end
       end
     end
@@ -98,16 +98,16 @@ module Orcid
           Orcid::ProfileRequest.should_receive(:find_by_user).with(user).and_return(nil)
           Orcid.should_receive(:enqueue).with(an_instance_of(Orcid::ProfileRequest))
 
-          post :create, profile_request: profile_request_attributes
+          post :create, profile_request: profile_request_attributes, use_route: :orcid
           expect(response).to be_redirect
         end
 
         it 'should guard against duplicate requests' do
           Orcid::ProfileRequest.should_receive(:find_by_user).with(user).and_return(Orcid::ProfileRequest.new)
-          post :create, profile_request: profile_request_attributes
+          post :create, profile_request: profile_request_attributes, use_route: :orcid
 
           expect(flash[:notice]).to eq(I18n.t("orcid.requests.messages.existing_request"))
-          expect(response).to redirect_to(orcid_profile_request_path)
+          expect(response).to redirect_to(orcid.profile_request_path)
         end
 
       end

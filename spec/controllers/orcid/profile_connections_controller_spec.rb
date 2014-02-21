@@ -2,11 +2,11 @@ require 'spec_helper'
 
 module Orcid
   describe ProfileConnectionsController do
-    def self.it_prompts_unauthenticated_users_for_signin(method, action, parameters = {})
+    def self.it_prompts_unauthenticated_users_for_signin(method, action)
       context 'unauthenticated user' do
         it 'should redirect for sign in' do
-          send(method, action, parameters)
-          expect(response).to redirect_to(new_user_session_path)
+          send(method, action, use_route: :orcid)
+          expect(response).to redirect_to(main_app.new_user_session_path)
         end
       end
     end
@@ -18,9 +18,9 @@ module Orcid
           orcid_profile = double("Orcid::Profile", orcid_profile_id: '1234-5678-0001-0002')
           Orcid.should_receive(:profile_for).with(user).and_return(orcid_profile)
 
-          send(method, action)
+          send(method, action, use_route: :orcid)
 
-          expect(response).to redirect_to(root_path)
+          expect(response).to redirect_to(main_app.root_path)
           expect(flash[:notice]).to eq(
             I18n.t("orcid.requests.messages.previously_connected_profile", orcid_profile_id: orcid_profile.orcid_profile_id)
           )
@@ -45,7 +45,7 @@ module Orcid
         before { sign_in(user) }
 
         it 'should render a profile request form' do
-          get :new
+          get :new, use_route: :orcid
           expect(response).to be_success
           expect(assigns(:profile_connection)).to be_an_instance_of(Orcid::ProfileConnection)
           expect(response).to render_template('new')
@@ -64,9 +64,9 @@ module Orcid
         it 'should render a profile request form' do
           Orcid::ProfileConnection.any_instance.should_receive(:save)
 
-          post :create, profile_connection: { orcid_profile_id: orcid_profile_id }
+          post :create, profile_connection: { orcid_profile_id: orcid_profile_id }, use_route: :orcid
           expect(assigns(:profile_connection)).to be_an_instance_of(Orcid::ProfileConnection)
-          expect(response).to redirect_to(orcid_profile_connections_path)
+          expect(response).to redirect_to(orcid.profile_connections_path)
         end
       end
     end

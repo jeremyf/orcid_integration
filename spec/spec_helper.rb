@@ -27,6 +27,15 @@ module ControllerHelpers
       controller.stub :current_user => user
     end
   end
+
+  def main_app
+    controller.main_app
+  end
+
+  def orcid
+    controller.orcid
+  end
+
 end
 
 RSpec.configure do |config|

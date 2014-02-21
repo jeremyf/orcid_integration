@@ -46,7 +46,7 @@ module Orcid
       attr_reader :works, :template
       def initialize(works, options = {})
         self.works = works
-        @template = options.fetch(:template_path) { File.read(Rails.root.join('app/templates/orcid/work.template.v1.1.xml.erb')) }
+        @template = options.fetch(:template_path) { Orcid::Engine.root.join('app/templates/orcid/work.template.v1.1.xml.erb').read }
       end
 
       def call

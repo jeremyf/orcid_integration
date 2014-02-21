@@ -85,6 +85,8 @@ describe 'non-UI based interactions' , requires_net_connect: true do
     Capybara.app_host = 'http://mailinator.com'
     Capybara.run_server = false
 
+    sleep(2) # Because Orcid may not have delivered the mail just yet
+
     visit("/inbox.jsp?to=#{email_prefix}")
     sleep(2) # Because mailinator might be slow
     begin
