@@ -1,5 +1,4 @@
 require 'qa'
-require 'ostruct'
 
 module Qa::Authorities
   class OrcidProfile
