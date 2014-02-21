@@ -8,6 +8,7 @@ PATH
       mappy (~> 0.1.0)
       omniauth-orcid
       rails (~> 4.0.3)
+      simple_form
       virtus
 
 GEM
@@ -148,6 +149,9 @@ GEM
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
       rspec-mocks (~> 2.14.0)
+    simple_form (3.0.1)
+      actionpack (>= 4.0.0, < 4.1)
+      activemodel (>= 4.0.0, < 4.1)
     sprockets (2.11.0)
       hike (~> 1.2)
       multi_json (~> 1.0)

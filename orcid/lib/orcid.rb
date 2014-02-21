@@ -5,6 +5,7 @@ require 'devise_multi_auth'
 require 'virtus'
 require 'omniauth-orcid'
 require 'email_validator'
+require 'simple_form'
 
 module Orcid
 
