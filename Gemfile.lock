@@ -2,6 +2,8 @@ PATH
   remote: orcid
   specs:
     orcid (0.0.1.pre)
+      devise-multi_auth (~> 0.0.3)
+      mappy (~> 0.1.0)
       rails (~> 4.0.3)
 
 GEM
@@ -307,7 +309,6 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   database_cleaner (= 1.0.1)
   devise
-  devise-multi_auth (~> 0.0.3)
   email_spec
   email_validator
   factory_girl_rails
@@ -318,7 +319,6 @@ DEPENDENCIES
   guard-rspec
   jbuilder (~> 1.2)
   jquery-rails
-  mappy (~> 0.1.0)
   omniauth-github
   omniauth-orcid
   orcid!

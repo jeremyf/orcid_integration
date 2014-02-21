@@ -21,8 +21,6 @@ gem 'rest_client'
 gem 'email_validator'
 gem 'rails_layout'
 gem 'virtus'
-gem 'mappy', '~> 0.1.0'
-gem 'devise-multi_auth', '~> 0.0.3'
 gem 'orcid', path: 'orcid'
 
 group :debug do

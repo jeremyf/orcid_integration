@@ -1,5 +1,7 @@
 require 'orcid/engine'
 require 'orcid/configuration'
+require 'mappy'
+require 'devise_multi_auth'
 
 module Orcid
 
