@@ -14,9 +14,8 @@ gem 'certified'
 gem 'figaro'
 gem 'foundation-rails'
 gem 'simple_form'
-gem 'rest_client'
 gem 'rails_layout'
-gem 'orcid', path: '../orcid'
+gem 'orcid', github: 'jeremyf/orcid'
 
 group :debug do
   gem 'better_errors'
