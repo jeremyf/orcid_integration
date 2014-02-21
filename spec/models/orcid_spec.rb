@@ -4,9 +4,11 @@ describe Orcid do
   let(:user) { FactoryGirl.build_stubbed(:user) }
   let(:orcid_profile_id) { '0001-0002-0003-0004' }
 
-  context '.authentication' do
-    subject { Orcid.authentication }
+  context '.authentication_model' do
+    subject { Orcid.authentication_model }
     it { should respond_to :to_access_token }
+    it { should respond_to :create! }
+    it { should respond_to :create! }
   end
 
   context '.oauth_client' do
@@ -47,7 +49,7 @@ describe Orcid do
     it 'changes the authentication count' do
       expect {
         Orcid.connect_user_and_orcid_profile(user, orcid_profile_id)
-      }.to change(Orcid.authentication.where(provider: 'orcid', user_id: user.id), :count).by(1)
+      }.to change(Orcid.authentication_model, :count).by(1)
     end
   end
 

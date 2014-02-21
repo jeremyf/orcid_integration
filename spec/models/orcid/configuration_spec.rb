@@ -7,6 +7,7 @@ module Orcid
     subject { described_class.new }
 
     its(:provider_name) { should eq 'orcid'}
+    its(:authentication_model) { should eq Devise::MultiAuth::Authentication }
 
     context 'custom storage' do
       subject { described_class.new(storage) }

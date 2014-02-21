@@ -16,26 +16,27 @@ module Orcid
     configuration.provider_name
   end
 
+  def authentication_model
+    configuration.authentication_model
+  end
+
+
   def connect_user_and_orcid_profile(user, orcid_profile_id, options = {})
-    authentication.create!(provider: provider_name, uid: orcid_profile_id, user: user)
+    authentication_model.create!(provider: provider_name, uid: orcid_profile_id, user: user)
   end
 
   def access_token_for(orcid_profile_id, options = {})
     client = options.fetch(:client) { oauth_client }
-    tokenizer = options.fetch(:tokenizer) { authentication }
+    tokenizer = options.fetch(:tokenizer) { authentication_model }
     tokenizer.to_access_token(uid: orcid_profile_id, provider: provider_name, client: client)
   end
 
   def profile_for(user)
-    if auth = authentication.where(provider: provider_name, user: user).first
+    if auth = authentication_model.where(provider: provider_name, user: user).first
       Orcid::Profile.new(auth.uid)
     else
       nil
     end
-  end
-
-  def authentication
-    Devise::MultiAuth::Authentication
   end
 
   def enqueue(object)
