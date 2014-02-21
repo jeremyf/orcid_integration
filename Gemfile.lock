@@ -1,3 +1,12 @@
+GIT
+  remote: git://github.com/jeremyf/devise-multi_auth.git
+  revision: ce947bac3092d047921e4a178db50c1af6ce9237
+  specs:
+    devise-multi_auth (0.0.2)
+      devise (~> 3.2.2)
+      omniauth (~> 1.2.1)
+      rails (~> 4.0.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -82,10 +91,6 @@ GEM
       railties (>= 3.2.6, < 5)
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
-    devise-multi_auth (0.0.2)
-      devise (~> 3.2.2)
-      omniauth (~> 1.2.1)
-      rails (~> 4.0.3)
     diff-lcs (1.2.5)
     email_spec (1.5.0)
       launchy (~> 2.1)
@@ -315,7 +320,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   database_cleaner (= 1.0.1)
   devise
-  devise-multi_auth (~> 0.0.2)
+  devise-multi_auth!
   email_spec
   email_validator
   factory_girl_rails

@@ -43,7 +43,11 @@ module Orcid
   end
 
   def oauth_client
-    @oauth_client ||= OAuth2::Client.new(ENV['ORCID_APP_ID'], ENV['ORCID_APP_SECRET'], site: ENV['ORCID_SITE_URL'])
+    # passing the site: option as Orcid's Sandbox has an invalid certificate
+    # for the api.sandbox-1.orcid.org
+    @oauth_client ||= Devise::MultiAuth.oauth_client_for(
+      provider_name, options: { site: ENV['ORCID_SITE_URL']}
+    )
   end
 
   def client_credentials_token(scope, options = {})
