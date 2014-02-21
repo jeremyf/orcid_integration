@@ -227,15 +227,17 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  config.omniauth :github, ENV['GITHUB_APP_ID'], ENV['GITHUB_APP_SECRET'], :scope => 'user,public_repo'
-  config.omniauth(:orcid, ENV['ORCID_APP_ID'], ENV['ORCID_APP_SECRET'],
-                  scope: ENV['ORCID_APP_AUTHENTICATION_SCOPE'],
-                  client_options: {
-                    site: ENV['ORCID_SITE_URL'],
-                    authorize_url: ENV['ORCID_AUTHORIZE_URL'],
-                    token_url: ENV['ORCID_TOKEN_URL']
-                  }
-                  )
+  config.omniauth(
+    :orcid,
+    Orcid.configuration.app_id,
+    Orcid.configuration.app_secret,
+    scope: Orcid.configuration.app_authentication_scope,
+    client_options: {
+      site: Orcid.configuration.app_site_url,
+      authorize_url: Orcid.configuration.app_authorize_url,
+      token_url: Orcid.configuration.app_token_url
+    }
+  )
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
