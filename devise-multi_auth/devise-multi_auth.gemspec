@@ -16,7 +16,13 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*", "LICENSE", "Rakefile", "README.md"]
 
   s.add_dependency "rails", "~> 4.0.3"
+  s.add_dependency "devise", "~> 3.2.2"
+  s.add_dependency "omniauth", "~> 1.2.1"
 
+  s.add_development_dependency 'database_cleaner', '1.0.1'
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "engine_cart"
+  s.add_development_dependency "rspec-rails"
+  s.add_development_dependency "omniauth-github"
+  s.add_development_dependency "factory_girl"
 end

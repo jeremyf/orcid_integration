@@ -4,17 +4,94 @@ rescue LoadError
   puts 'You must `gem install bundler` and `bundle install` to run rake tasks'
 end
 
-require 'rdoc/task'
-
-RDoc::Task.new(:rdoc) do |rdoc|
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title    = 'DeviseMultiAuth'
-  rdoc.options << '--line-numbers'
-  rdoc.rdoc_files.include('README.rdoc')
-  rdoc.rdoc_files.include('lib/**/*.rb')
-end
-
-
-
+require 'engine_cart/rake_task'
 
 Bundler::GemHelper.install_tasks
+
+require 'rspec/core/rake_task'
+
+RSpec::Core::RakeTask.new(:spec)
+
+task :ci => ['engine_cart:clean', 'engine_cart:generate', 'spec']
+
+
+namespace :dummy do
+  ENGINE_NAME = 'Devise::MultiAuth'
+
+  task :init do
+    DUMMY_ROOT = File.expand_path("../spec/dummy", __FILE__).freeze
+  end
+
+  desc "Generate a Rails dummy for #{ENGINE_NAME} tests"
+  task :generate => [:init, :new_app, :install, :migrate, :configure, :cleanup]
+
+  desc 'Remove dummy application'
+  task :remove => :init do
+    require 'fileutils'
+    $stdout.puts "Removing spec/dummy"
+    FileUtils.rm_rf(DUMMY_ROOT)
+  end
+
+  desc "Replace the existing Rails dummy for #{ENGINE_NAME} tests"
+  task :regenerate => [:remove, :generate]
+
+
+  task :new_app => [:init] do
+    # Cribbed from https://gist.github.com/stas/4131823
+    require 'rails'
+    require 'devise_multi_auth'
+    require 'rails/generators'
+    require 'rails/generators/rails/plugin_new/plugin_new_generator'
+
+    class DummyGenerator < Rails::Generators::PluginNewGenerator
+
+      def self.default_source_root
+        Rails::Generators::PluginNewGenerator.default_source_root
+      end
+
+      def do_nothing
+      end
+
+      alias :create_root :do_nothing
+      alias :create_root_files :do_nothing
+      alias :create_app_files :do_nothing
+      alias :create_config_files :do_nothing
+      alias :create_lib_files :do_nothing
+      alias :create_public_stylesheets_files :do_nothing
+      alias :create_javascript_files :do_nothing
+      alias :create_script_files :do_nothing
+      alias :update_gemfile :do_nothing
+      alias :create_test_files :do_nothing
+      alias :finish_template :do_nothing
+
+    end
+    puts "Generating #{DUMMY_ROOT}"
+    DummyGenerator.start(
+      %W(. --force --skip-bundle --old-style-hash --dummy-path=#{DUMMY_ROOT})
+         )
+  end
+
+  task :scaffold => [:init, :new_app] do
+    system("rails generate model Watch title:string description:text")
+    system("rails generate model Gear name:string specs:text watch:belongs_to")
+  end
+
+  task :install => [:init, :new_app] do
+    puts "Installing #{ENGINE_NAME}"
+    # system("rails generate hydra:object_viewer:install --force")
+  end
+
+  task :configure => [:init, :install] do
+  end
+
+  task :cleanup => [:init] do
+    system("rm -rf #{File.join(DUMMY_ROOT,'spec')}")
+  end
+
+  task :migrate => :init do
+    puts "Running #{ENGINE_NAME} migrations"
+    rakefile = File.join(DUMMY_ROOT, 'Rakefile')
+    system("rake -f #{rakefile} db:create db:migrate db:test:prepare")
+  end
+
+end

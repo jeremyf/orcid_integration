@@ -22,16 +22,16 @@ module Devise::MultiAuth
       end
 
       context 'with a registered user' do
+        let(:user) { FactoryGirl.build(:devise_multi_auth_user) }
         before(:each) do
           Authentication.should_receive(:find_user_by_provider_and_uid).with(provider.to_s, uid).and_return(user)
         end
         # Adding an ID because this request is hitting the database.
         # Trying to figure out why.
-        let(:user) { User.new(id: 123) }
         it 'should assign the user and redirect to home' do
           get provider
           expect(assigns(:user)).to eq(user)
-          expect(response).to redirect_to(root_path)
+          expect(response).to be_redirect
         end
       end
     end

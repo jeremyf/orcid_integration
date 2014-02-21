@@ -6,15 +6,21 @@ if ENV['COVERAGE']
   SimpleCov.command_name "spec"
 end
 
-# Cheating a bit and using container application
-require File.expand_path("../../../config/environment", __FILE__)
+require 'engine_cart'
+require 'omniauth-github'
+
+require File.expand_path("../internal/config/environment.rb",  __FILE__)
+
+EngineCart.load_application!
 require 'rspec/rails'
 require 'rspec/autorun'
-require 'webmock/rspec'
+require 'database_cleaner'
+require 'factory_girl'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+Dir[File.expand_path("../support/**/*.rb",__FILE__)].each {|f| require f}
+Dir[File.expand_path("../factories/**/*.rb",__FILE__)].each {|f| require f}
 
 # From https://github.com/plataformatec/devise/wiki/How-To:-Stub-authentication-in-controller-specs
 module ControllerHelpers
