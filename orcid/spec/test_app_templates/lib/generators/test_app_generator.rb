@@ -7,6 +7,10 @@ class TestAppGenerator < Rails::Generators::Base
     generate 'devise:multi_auth:install --install_devise'
   end
 
+  def install_migrations
+    rake "orcid:install:migrations"
+  end
+
   def install_omniauth_strategies
     config_code = ", :omniauthable, :omniauth_providers => [:orcid]"
     insert_into_file 'app/models/user.rb', config_code, { :after => /:validatable *$/, :verbose => false }
@@ -24,4 +28,11 @@ class TestAppGenerator < Rails::Generators::Base
     insert_into_file 'config/initializers/devise.rb', init_code, {after: /Devise\.setup.*$/, verbose: true}
   end
 
+  def insert_home_route
+    route 'root :to => "application#index"'
+  end
+
+  def mount_orcid_engine
+    route 'mount Orcid::Engine => "/orcid"'
+  end
 end

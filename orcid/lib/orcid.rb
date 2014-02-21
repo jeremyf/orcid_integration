@@ -4,6 +4,7 @@ require 'mappy'
 require 'devise_multi_auth'
 require 'virtus'
 require 'omniauth-orcid'
+require 'email_validator'
 
 module Orcid
 

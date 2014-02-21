@@ -2,9 +2,13 @@ PATH
   remote: orcid
   specs:
     orcid (0.0.1.pre)
+      byebug
       devise-multi_auth (~> 0.0.3)
+      email_validator
       mappy (~> 0.1.0)
+      omniauth-orcid
       rails (~> 4.0.3)
+      virtus
 
 GEM
   remote: https://rubygems.org/
