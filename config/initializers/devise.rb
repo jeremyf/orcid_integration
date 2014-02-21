@@ -229,13 +229,13 @@ Devise.setup do |config|
   # up on your models and hooks.
   config.omniauth(
     :orcid,
-    Orcid.configuration.app_id,
-    Orcid.configuration.app_secret,
-    scope: Orcid.configuration.app_authentication_scope,
+    Orcid.provider.id,
+    Orcid.provider.secret,
+    scope: Orcid.provider.authentication_scope,
     client_options: {
-      site: Orcid.configuration.app_site_url,
-      authorize_url: Orcid.configuration.app_authorize_url,
-      token_url: Orcid.configuration.app_token_url
+      site: Orcid.provider.site_url,
+      authorize_url: Orcid.provider.authorize_url,
+      token_url: Orcid.provider.token_url
     }
   )
 
