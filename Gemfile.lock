@@ -1,5 +1,5 @@
 PATH
-  remote: devise-multi_auth
+  remote: ../devise-multi_auth
   specs:
     devise-multi_auth (0.0.1)
       devise (~> 3.2.2)
