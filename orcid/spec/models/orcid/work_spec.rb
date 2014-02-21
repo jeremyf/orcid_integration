@@ -53,7 +53,7 @@ module Orcid
   end
 
   describe Work::XmlParser do
-    let(:xml) { Rails.root.join('spec/fixtures/orcid_works.xml').read }
+    let(:xml) { fixture_file('orcid_works.xml').read }
     let(:work_1) { Orcid::Work.new(title: 'Another Test Drive', work_type: 'test', put_code: '303475')}
     let(:work_2) { Orcid::Work.new(title: 'Test Driven Orcid Integration', work_type: 'test', put_code: '303474')}
     subject { described_class.new(xml) }
