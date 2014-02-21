@@ -8,6 +8,7 @@ PATH
       mappy (~> 0.1.0)
       omniauth-orcid
       rails (~> 4.0.3)
+      simple_form
       virtus
 
 GEM

@@ -1,3 +1,4 @@
+require 'rest_client'
 class RequestSandboxAuthorizationCode
 
   def self.call(options = {}, config = {})
