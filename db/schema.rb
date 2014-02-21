@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140221002837) do
+ActiveRecord::Schema.define(version: 20140221180102) do
 
   create_table "devise_multi_auth_authentications", force: true do |t|
     t.integer  "user_id",       null: false

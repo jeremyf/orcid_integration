@@ -42,7 +42,7 @@ describe 'connecting orcid profile' do
     context 'without net connect', requires_net_connect: false do
       let(:label) { "A Person [ORCID: #{orcid_profile_id}]" }
       before(:each) do
-        Qa::Authorities::OrcidProfile.should_receive(:call).and_return([ OpenStruct.new('id' => orcid_profile_id, 'label' => label)])
+        Orcid::ProfileLookupService.should_receive(:call).and_return([ OpenStruct.new('id' => orcid_profile_id, 'label' => label)])
       end
       it 'should allow me to connect to an existing ORCID account' do
         register_user(email, password)

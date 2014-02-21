@@ -1,3 +1,4 @@
+# This migration comes from orcid (originally 20140205185338)
 class CreateOrcidProfileRequests < ActiveRecord::Migration
   def change
     create_table :orcid_profile_requests do |t|
