@@ -2,6 +2,8 @@ require 'orcid/engine'
 require 'orcid/configuration'
 require 'mappy'
 require 'devise_multi_auth'
+require 'virtus'
+require 'omniauth-orcid'
 
 module Orcid
 

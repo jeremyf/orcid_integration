@@ -1,7 +1,6 @@
 module Orcid
   class Engine < ::Rails::Engine
     isolate_namespace Orcid
-    config.orcid = Orcid
 
     initializer 'orcid.initializers' do |app|
       app.config.paths.add 'app/services', eager_load: true
@@ -11,7 +10,7 @@ module Orcid
     end
 
     config.before_initialize do |app|
-      app.config.orcid.configure do |config|
+      Orcid.configure do |config|
         config.provider_name = 'orcid'
       end
     end
