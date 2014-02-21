@@ -1,7 +1,7 @@
 module Devise::MultiAuth
   class Authentication < ActiveRecord::Base
     belongs_to :user
-    self.table_name = 'authentications'
+    self.table_name = 'devise_multi_auth_authentications'
 
     def self.to_access_token(options)
       uid = options.fetch(:uid)

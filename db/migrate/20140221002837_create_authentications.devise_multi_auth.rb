@@ -1,7 +1,7 @@
 # This migration comes from devise_multi_auth (originally 20140204141526)
 class CreateAuthentications < ActiveRecord::Migration
   def change
-    create_table :authentications do |t|
+    create_table :devise_multi_auth_authentications do |t|
       t.integer :user_id, index: true, null: false
       t.string :provider, null: false
       t.string :uid, null: false
@@ -10,6 +10,6 @@ class CreateAuthentications < ActiveRecord::Migration
       t.timestamp :expires_at, index: true
       t.timestamps
     end
-    add_index :authentications, [:provider, :uid], unique: true
+    add_index :devise_multi_auth_authentications, [:provider, :uid], unique: true
   end
 end
