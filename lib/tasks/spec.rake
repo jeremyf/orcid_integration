@@ -19,7 +19,7 @@ namespace :spec do
     Rake::Task['db:create'].invoke
     Rake::Task['db:schema:load'].invoke
     Rake::Task['spec:offline'].invoke
-    Rake::Task['spec:plugins'].invoke
+    # Rake::Task['spec:plugins'].invoke
   end
 
   plugin_directories = Dir['devise-multi_auth']
