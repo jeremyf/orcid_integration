@@ -7,4 +7,4 @@ OrcidIntegration::Application.load_tasks
 
 Rake::Task["default"].clear
 
-task :default => ['db:test:prepare', 'spec:offline', 'spec:devise_multi_auth:travis']
+task :default => ['db:test:prepare', 'spec:offline']
