@@ -19,24 +19,5 @@ namespace :spec do
     Rake::Task['db:create'].invoke
     Rake::Task['db:schema:load'].invoke
     Rake::Task['spec:offline'].invoke
-    # Rake::Task['spec:plugins'].invoke
   end
-
-  plugin_directories = Dir['devise-multi_auth']
-  namespace :plugins do
-    plugin_directories.each do |plugin|
-      component = plugin.sub('-', '_').to_sym
-      desc "Run specs for #{plugin}"
-      task component do
-        Bundler.with_clean_env do
-          FileUtils.cd(plugin)
-          puts "\n*** Running plugin specs for #{plugin}"
-          system("rspec")
-          FileUtils.cd(File.expand_path('../', __FILE__))
-        end
-      end
-    end
-  end
-  desc "Run specs for all plugins"
-  task :plugins => plugin_directories.collect {|dir| "plugins:" << dir.gsub("-", '_') }
 end
