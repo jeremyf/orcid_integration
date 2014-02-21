@@ -1,3 +1,9 @@
+PATH
+  remote: orcid
+  specs:
+    orcid (0.0.1.pre)
+      rails (~> 4.0.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -329,6 +335,7 @@ DEPENDENCIES
   mappy (~> 0.1.0)
   omniauth-github
   omniauth-orcid
+  orcid!
   qa
   quiet_assets
   rails (~> 4.0.3)
