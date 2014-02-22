@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/jeremyf/orcid.git
-  revision: 45f2091f3e12fbcb69ab2cb243b6e17485ad6709
+  revision: 696c224ba2926b08fb0c105a01758695e165ac1a
   specs:
     orcid (0.0.1)
       byebug
@@ -45,7 +45,9 @@ GEM
     axiom-types (0.0.5)
       descendants_tracker (~> 0.0.1)
       ice_nine (~> 0.9)
-    bcrypt-ruby (3.1.2)
+    bcrypt (3.1.6)
+    bcrypt-ruby (3.1.5)
+      bcrypt (>= 3.1.3)
     better_errors (1.1.0)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -85,7 +87,7 @@ GEM
     debug_inspector (0.0.2)
     debugger-linecache (1.2.0)
     descendants_tracker (0.0.3)
-    devise (3.2.2)
+    devise (3.2.3)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 3.2.6, < 5)
