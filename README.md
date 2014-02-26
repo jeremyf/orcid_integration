@@ -5,7 +5,7 @@
 * ~~Orcid authentication via OAuth~~
 * ~~Retrieve an existing Orcid profile~~
 * ~~Create an Orcid profile for a user~~
-* Large scale creation and assignment of Orcids
+* ~~Large scale creation and assignment of Orcids~~
 * ~~Export data into ORCID from the IR~~
 * Import data from ORCID into the IR
 
