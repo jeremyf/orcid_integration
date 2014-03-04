@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/jeremyf/orcid.git
-  revision: 965f0f289e5d645ed7c1e96d4effb927e2b39632
+  revision: d5881625f58048db70c25a141f6b0c5509099690
   specs:
-    orcid (0.0.3)
+    orcid (0.0.4)
       devise-multi_auth (~> 0.0.3)
       email_validator
       mappy (~> 0.1.0)

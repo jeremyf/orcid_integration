@@ -1,13 +1,13 @@
 <%# add navigation links to this file %>
 <% if user_signed_in? %>
-  <li><%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %></li>
+  <li><%= link_to 'Logout', main_app.destroy_user_session_path, :method=>'delete' %></li>
 <% else %>
-  <li><%= link_to 'Login', new_user_session_path %></li>
+  <li><%= link_to 'Login', main_app.new_user_session_path %></li>
 <% end %>
 <% if user_signed_in? %>
   <li><%= link_to 'Request ORCID Profile', orcid.new_profile_request_path %></li>
   <li><%= link_to 'Connect to my existing ORCID Profile', orcid.new_profile_connection_path %></li>
-  <li><%= link_to 'Edit account', edit_user_registration_path %></li>
+  <li><%= link_to 'Edit account', main_app.edit_user_registration_path %></li>
 <% else %>
-  <li><%= link_to 'Sign up', new_user_registration_path %></li>
+  <li><%= link_to 'Sign up', main_app.new_user_registration_path %></li>
 <% end %>
